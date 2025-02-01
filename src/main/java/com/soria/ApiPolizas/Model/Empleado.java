@@ -13,4 +13,11 @@ public class Empleado extends GeneralParams{
     Boolean Activo;
     Date FechaRegistro;
 
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public int getId() {
+        return Id;
+    }
 }
