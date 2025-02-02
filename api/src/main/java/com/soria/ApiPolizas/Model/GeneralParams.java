@@ -2,6 +2,8 @@ package com.soria.ApiPolizas.Model;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class GeneralParams {
     public Boolean Estatus;
@@ -10,4 +12,6 @@ public class GeneralParams {
     public String Busqueda;
     public int Pagina;
     public int Paginado;
+    public Boolean Activo;
+    public Date FechaRegistro;
 }

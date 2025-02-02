@@ -14,9 +14,13 @@ CREATE OR ALTER PROCEDURE [dbo].[ssp_puestos](
 AS 
 	DECLARE
          @id INT
+        --
+        ,@affectedRows INT
+        ,@busqueda VARCHAR(512)
         ,@pagina int
         ,@paginado int
         ,@success BIT
+        ,@exception BIT
         ,@message VARCHAR(1024)
 
 
@@ -29,16 +33,40 @@ AS
 		BEGIN TRANSACTION
 		BEGIN TRY
 
-            SET @success = 1
-			SET @message = 'Registros correctos'
-			COMMIT
+            INSERT INTO polizas..CatPuesto
+            (
+                Nombre
+                ,Activo
+                ,FechaRegistro
+            )
+            VALUES(
+                 JSON_VALUE(@json,'$.nombre')
+                ,1
+                ,GETDATE()
+            )
+
+            SET @affectedRows = @@ROWCOUNT
+            SET @id = IDENT_CURRENT('CatPuesto')
+            COMMIT
+            
+            IF @affectedRows > 0
+            BEGIN
+                SET @success = 1
+                SET @message = 'REGISTRO INSERTADO'
+            END
+            ELSE
+            BEGIN
+                SET @message = 'NO SE COMPLETO REGISTRO'
+            END
+
 		END TRY 
 		BEGIN CATCH
-			
+			ROLLBACK 
             SET @success = 0
 			SET @message = CONCAT('ERROR|[',ERROR_PROCEDURE(),':',ERROR_LINE(),']|',ERROR_MESSAGE())
-			ROLLBACK 
 		END CATCH
+
+        SELECT ISNULL(@id,0) as Id, @success as Estatus, @message as Mensaje
 	END 
 	-- SELECCIONAR
 	ELSE IF @operation = 2 
@@ -48,19 +76,22 @@ AS
             SELECT
                  Id
                 ,Nombre
+                ,1 as Estatus
             FROM
-                polizas..CatPuesto (NOLOCK) 
+                polizas..CatPuesto (NOLOCK)
             WHERE
-                Activo = 0
+                Activo = 1
             AND
-                Id = ISNULL(JSON_VALUE(@json,'$.Id'),Id)
+                Id = ISNULL(JSON_VALUE(@json,'$.id'),Id)
 			
 			SET @success = 1
-			SET @message = 'TODO CORRECTO'
+			SET @message = 'REGISTRO(S) CONSULTADO(S) CON EXITO'
 		END TRY
 		BEGIN CATCH
-			
+			SET @success = 0
+			SET @exception = 1
 			SET @message = CONCAT('ERROR|[',ERROR_PROCEDURE(),':',ERROR_LINE(),']|',ERROR_MESSAGE())
+            SELECT @success as Estatus, @message as Mensaje
 		END CATCH
 
 	END 
@@ -72,31 +103,29 @@ AS
 		BEGIN TRANSACTION 
 		BEGIN TRY
 
-            UPDATE CatEmpleado
+           UPDATE CatPuesto
             SET
-                Nombre = ISNULL(JSON_VALUE(@json,'$.Nombre'),'')
-                ,Apellido = ISNULL(JSON_VALUE(@json,'$.Apellido'),'')
-                ,PuestoID = ISNULL(JSON_VALUE(@json,'$.PuestoID'),0)
+                Nombre = ISNULL(JSON_VALUE(@json,'$.nombre'),'')
             WHERE
-                Id = JSON_VALUE(@json,'$.Id')
+                Id = JSON_VALUE(@json,'$.id')
 			
-
+            SET @affectedRows = @@ROWCOUNT
 			COMMIT
 
-			IF @@ROWCOUNT > 0 BEGIN 
+			IF @affectedRows > 0 BEGIN 
 				SET @success = 1
 				SET @message = 'REGISTRO ACTUALIZADO'
 			END ELSE
-				SET @message = 'EMPLEADO INEXISTENTE'
-
-            SELECT @success as Estatus, @message as Mensaje
+				SET @message = 'PUESTO INEXISTENTE'
 		END TRY
 		BEGIN CATCH
 			ROLLBACK
+            SET @success = 0
+			SET @exception = 1
 			SET @message = CONCAT('ERROR|[',ERROR_PROCEDURE(),':',ERROR_LINE(),']|',ERROR_MESSAGE())
 
-            SELECT @success as Estatus, @message as Mensaje
 		END CATCH
+        SELECT @success as Estatus, @message as Mensaje
 	END
 	-- ELIMINAR
 	ELSE IF @operation = 4 
@@ -106,91 +135,65 @@ AS
         BEGIN TRANSACTION 
 		BEGIN TRY
 
-			
+        UPDATE CatPuesto
+        SET
+            Activo = 0
+        WHERE
+            Id = JSON_VALUE(@json,'$.id')
 
-			IF @@ROWCOUNT > 0 BEGIN
-				SET @success = 1
-				SET @message = 'EL REGISTRO HA SIDO ELIMINADO'
-			END ELSE 
-				SET @message = 'NO EXISTE LA ESCUELA'
-			COMMIT
+        SET @affectedRows = @@ROWCOUNT
+		COMMIT
+
+		IF @affectedRows > 0 BEGIN 
+		    SET @success = 1
+		    SET @message = 'REGISTRO ELIMINADO'
+		END ELSE
+		    SET @message = 'EMPLEADO INEXISTENTE'
+
+			
 		END TRY
 		BEGIN CATCH
-			
-			SET @message = CONCAT('ERROR|[',ERROR_PROCEDURE(),':',ERROR_LINE(),']|',ERROR_MESSAGE())
 			ROLLBACK
+			SET @success = 0
+			SET @exception = 1
+			SET @message = CONCAT('ERROR|[',ERROR_PROCEDURE(),':',ERROR_LINE(),']|',ERROR_MESSAGE())
 		END CATCH
 
+        SELECT @success as Estatus, @message as Mensaje
     END 
     /* OBTENER DETALLE ABONO PAGINADO */
 	ELSE IF @operation = 5 
 	BEGIN
         BEGIN TRY
 
-            /*SET @c_cod_cliente = JSON_VALUE(@json,'$.c_cod_cliente')
-            SET @pagina = ISNULL(JSON_VALUE(@json,'$.pagina'),1)
-            SET @paginado = ISNULL(JSON_VALUE(@json,'$.paginado'),20)
-			
-            select 
-                *
-            from (
-                select 
-                n_abono*-1 as total_venta
-                ,n_abono*-1 as n_abono
-                ,d_fecha_abono
-                ,v_comentario
-                ,-1 as n_cantidad
-                ,(select n_abono as n_prod_venta for json path, WITHOUT_array_wrapper) as v_json_det
-                ,@empGUID as c_cod_coleccion
-                ,'' as v_desc_coll
-				,@empGUID AS c_cod_generico
-            from vn_abono where c_cod_cliente='2fb03233-d2be-4c73-aebe-d82796306e08'
-            --and b_activo_opc = 1
-            union all
-            select 
-                v.n_importe as total_venta
-                ,VD.n_cantidad * CONVERT(decimal(18,2),JSON_VALUE(v_json_det,'$.n_prod_venta'))
-                ,v.d_fecha_venta as d_fecha_abono
-                ,v.Comentario as v_comentario
-                ,VD.n_cantidad
-                ,VD.v_json_det
-                ,C.c_cod_coleccion
-                ,C.v_desc_coll
-				,V.c_cod_venta AS c_cod_generico
-            from vn_venta V
-            inner join vn_venta_detalle VD ON VD.c_cod_venta = V.c_cod_venta
-            inner join vn_producto_cat P ON VD.c_cod_prod = P.c_cod_prod AND P.b_activo_opc = 1
-            inner join vn_coleccion_cat C ON C.c_cod_coleccion = P.c_cod_coleccion AND C.b_activo_opc=1
-            where 
-                v.c_cod_cliente = '2fb03233-d2be-4c73-aebe-d82796306e08'
-            and 
-                v.b_activo_opc=1
-            ) as x
-            order by d_fecha_abono desc
-            OFFSET ((@pagina - 1) * @paginado) ROWS
-            FETCH NEXT @paginado ROWS ONLY;*/
+            SET @busqueda = JSON_VALUE(@json, '$.busqueda')
+            SET @pagina = JSON_VALUE(@json, '$.pagina')
+            SET @paginado = JSON_VALUE(@json, '$.paginado')
 
             SELECT
-                 E.Id
-                ,E.Nombre
-                ,E.Apellido
-                ,E.PuestoID
-                ,P.Nombre AS Puesto
+                Id
+                ,Nombre
+                ,CEILING((COUNT(0) OVER()) / convert(decimal(10,2),@paginado)) as TotalPaginas
+                ,1 as Estatus
             FROM
-                polizas..CatEmpleado(NOLOCK) E
-            INNER JOIN
-                polizas..CatPuesto (NOLOCK) P ON P.Id = E.PuestoID AND P.Activo = 1
+                polizas..CatPuesto (NOLOCK)
             WHERE
-                E.Activo = 0
-
+                Activo = 1
+            AND
+                nombre LIKE COALESCE('%'+@busqueda+'%',nombre) 
+            ORDER BY Id
+            offset(@pagina-1)*@paginado ROWS 
+            FETCH NEXT @paginado ROWS only
 			
 			SET @success = 1
-			SET @message = 'EL REGISTRO HA SIDO ELIMINADO'
+			SET @message = 'REGISTROS CONSULTADOS CON EXITO'
 		END TRY
 		BEGIN CATCH
-			
+            SET @success = 0
 			SET @message = CONCAT('ERROR|[',ERROR_PROCEDURE(),':',ERROR_LINE(),']|',ERROR_MESSAGE())
+            SELECT TOP 1 @success as Estatus, @message as Mensaje
 		END CATCH
 	END
+    exec dbo.spp_guardarBitacora @@PROCID, @operation,@json,@success,@message,null
 	
 GO

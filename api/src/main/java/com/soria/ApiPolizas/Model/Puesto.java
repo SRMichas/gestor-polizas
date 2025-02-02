@@ -3,12 +3,9 @@ package com.soria.ApiPolizas.Model;
 import lombok.Data;
 
 @Data
-public class Empleado extends GeneralParams{
+public class Puesto extends GeneralParams{
     int Id;
     String Nombre;
-    String Apellido;
-    int PuestoID;
-    String Puesto;
 
     public void setId(int id) {
         Id = id;
