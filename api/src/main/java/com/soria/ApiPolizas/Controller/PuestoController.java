@@ -26,11 +26,16 @@ public class PuestoController extends ControllerBase{
         ResponseAPI result = null;
         try
         {
+            logger.info("Inicia ObtenerActivos");
             result = BuildResponse(puestoServices.ObtenerActivos());
         }
         catch (Exception ex){
             result = BuildException("Ha ocurrido un error al obtener los empleados activos");
-            LogException(logger, ex);
+            LogException(logger,"ERROR en ObtenerActivos", ex);
+        }
+        finally
+        {
+            logger.info("Termina ObtenerActivos");
         }
 
         return  new ResponseEntity<>(result, HttpStatus.OK);
@@ -41,11 +46,17 @@ public class PuestoController extends ControllerBase{
         ResponseAPI result = null;
         try
         {
+            logger.info("Inicia ObtenerPorId");
+
             result = BuildResponse(puestoServices.ObtenerPorId(id));
         }
         catch (Exception ex){
             result = BuildException("Ha ocurrido un error al obtener los empleados por ID");
-            LogException(logger, ex);
+            LogException(logger,"ERROR en ObtenerPorId", ex);
+        }
+        finally
+        {
+            logger.info("Termina ObtenerActivos");
         }
 
         return  new ResponseEntity<>(result, HttpStatus.OK);
@@ -56,11 +67,17 @@ public class PuestoController extends ControllerBase{
         ResponseAPI result = null;
         try
         {
+            logger.info("Inicia ObtenerPaginado");
+
             result = BuildResponse(puestoServices.ObtenerPaginado(puesto));
         }
         catch (Exception ex){
             result = BuildException("Ha ocurrido un error al obtener los empleados paginados");
-            LogException(logger, ex);
+            LogException(logger,"ERROR en ObtenerPaginado", ex);
+        }
+        finally
+        {
+            logger.info("Termina ObtenerPaginado");
         }
 
         return  new ResponseEntity<>(result, HttpStatus.OK);
@@ -71,11 +88,17 @@ public class PuestoController extends ControllerBase{
         ResponseAPI result = null;
         try
         {
+            logger.info("Inicia Registrar");
+
             result = BuildResponse(puestoServices.Registrar(puesto));
         }
         catch (Exception ex){
             result = BuildException("Ha ocurrido un error al registrar el puesto");
-            LogException(logger, ex);
+            LogException(logger,"ERROR en Registrar", ex);
+        }
+        finally
+        {
+            logger.info("Termina Registrar");
         }
 
         return  new ResponseEntity<>(result, HttpStatus.OK);
@@ -86,11 +109,16 @@ public class PuestoController extends ControllerBase{
         ResponseAPI result = null;
         try
         {
+            logger.info("Inicia Actualizar");
             result = BuildResponse(puestoServices.Actualizar(puesto));
         }
         catch (Exception ex){
             result = BuildException("Ha ocurrido un error al actualiar el puesto");
-            LogException(logger, ex);
+            LogException(logger,"ERROR en Actualizar", ex);
+        }
+        finally
+        {
+            logger.info("Termina Actualizar");
         }
 
         return  new ResponseEntity<>(result, HttpStatus.OK);
@@ -101,11 +129,17 @@ public class PuestoController extends ControllerBase{
         ResponseAPI result = null;
         try
         {
+            logger.info("Inicia Eliminar");
+
             result = BuildResponse(puestoServices.Eliminar(puesto));
         }
         catch (Exception ex){
             result = BuildException("Ha ocurrido un error al eliminar el puesto");
-            LogException(logger, ex);
+            LogException(logger,"ERROR en Eliminar", ex);
+        }
+        finally
+        {
+            logger.info("Termina Eliminar");
         }
 
         return  new ResponseEntity<>(result, HttpStatus.OK);

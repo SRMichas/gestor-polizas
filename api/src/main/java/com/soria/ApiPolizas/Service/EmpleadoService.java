@@ -22,8 +22,6 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
         List<Empleado> empleados = List.of();
         try
         {
-            logger.info("Inicia ObtenerActivos");
-
             empleados = empleadoRepository.obtenerActivos();
             if(!empleados.isEmpty())
             {
@@ -35,13 +33,9 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
             }
         }
         catch (Exception ex){
-            logger.error("ERROR en ObtenerActivos",ex);
             throw ex;
         }
-        finally
-        {
-            logger.info("Termina ObtenerActivos");
-        }
+        
 
         return empleados;
     }
@@ -51,8 +45,6 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
         List<Empleado> empleados = List.of();
         try
         {
-            logger.info("Inicia ObtenerPorId");
-
             Empleado empleado = new Empleado();
             empleado.setId(empleadoID);
 
@@ -67,12 +59,7 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
             }
         }
         catch (Exception ex){
-            logger.error("ERROR en ObtenerPorId",ex);
             throw ex;
-        }
-        finally
-        {
-            logger.info("Termina ObtenerPorId");
         }
 
         return empleados;
@@ -83,7 +70,6 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
         List<Empleado> empleados = List.of();
         try
         {
-            logger.info("Inicia ObtenerPaginado");
 
             empleados = empleadoRepository.ObtenerPaginado(empleado);
             if(!empleados.isEmpty())
@@ -96,12 +82,7 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
             }
         }
         catch (Exception ex){
-            logger.error("ERROR en ObtenerPaginado",ex);
             throw ex;
-        }
-        finally
-        {
-            logger.info("Termina ObtenerPaginado");
         }
 
         return empleados;
@@ -112,8 +93,6 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
         Empleado emp = null;
         try
         {
-            logger.info("Inicia Registrar");
-
             emp = empleadoRepository.Registrar(empleado);
             if(!emp.Estatus)
             {
@@ -121,13 +100,9 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
             }
         }
         catch (Exception ex){
-            logger.error("ERROR en Registrar",ex);
             throw ex;
         }
-        finally
-        {
-            logger.info("Termina Registrar");
-        }
+        
 
         return emp;
     }
@@ -137,7 +112,6 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
         Empleado emp = null;
         try
         {
-            logger.info("Inicia Actualizar");
 
             emp = empleadoRepository.Actualizar(empleado);
             if(!emp.Estatus)
@@ -146,12 +120,7 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
             }
         }
         catch (Exception ex){
-            logger.error("ERROR en Actualizar",ex);
             throw ex;
-        }
-        finally
-        {
-            logger.info("Termina Actualizar");
         }
 
         return emp;
@@ -162,8 +131,6 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
         Empleado emp = null;
         try
         {
-            logger.info("Inicia Eliminar");
-
             emp = empleadoRepository.Eliminar(empleado);
             if(!emp.Estatus)
             {
@@ -171,12 +138,7 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
             }
         }
         catch (Exception ex){
-            logger.error("ERROR en Eliminar",ex);
             throw ex;
-        }
-        finally
-        {
-            logger.info("Termina Eliminar");
         }
 
         return emp;

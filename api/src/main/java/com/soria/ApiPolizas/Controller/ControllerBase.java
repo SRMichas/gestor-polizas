@@ -25,6 +25,10 @@ public class ControllerBase {
         return response;
     }
 
+    protected void LogException(Logger logger, String message, Exception ex){
+        logger.error(message,ex);
+    }
+
     protected void LogException(Logger logger, Exception ex){
 
         /*
@@ -44,6 +48,6 @@ public class ControllerBase {
 
         String message = ex.toString();
 
-        logger.error(message);
+        logger.error(message,ex);
     }
 }

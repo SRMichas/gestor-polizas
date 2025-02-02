@@ -21,8 +21,7 @@ public class PuestoService extends ServiceBase implements IPuestoService {
         List<Puesto> puestos = List.of();
         try
         {
-            logger.info("Inicia ObtenerActivos");
-
+            
             puestos = puestoRepository.obtenerActivos();
             if(!puestos.isEmpty())
             {
@@ -34,12 +33,7 @@ public class PuestoService extends ServiceBase implements IPuestoService {
             }
         }
         catch (Exception ex){
-            logger.error("ERROR en ObtenerActivos",ex);
             throw ex;
-        }
-        finally
-        {
-            logger.info("Termina ObtenerActivos");
         }
 
         return puestos;
@@ -50,8 +44,6 @@ public class PuestoService extends ServiceBase implements IPuestoService {
         List<Puesto> puestos = List.of();
         try
         {
-            logger.info("Inicia ObtenerPorId");
-
             Puesto puesto = new Puesto();
             puesto.setId(empleadoID);
 
@@ -66,12 +58,7 @@ public class PuestoService extends ServiceBase implements IPuestoService {
             }
         }
         catch (Exception ex){
-            logger.error("ERROR en ObtenerPorId",ex);
             throw ex;
-        }
-        finally
-        {
-            logger.info("Termina ObtenerPorId");
         }
 
         return puestos;
@@ -82,8 +69,6 @@ public class PuestoService extends ServiceBase implements IPuestoService {
         List<Puesto> puestos = List.of();
         try
         {
-            logger.info("Inicia ObtenerPaginado");
-
             puestos = puestoRepository.ObtenerPaginado(puesto);
             if(!puestos.isEmpty())
             {
@@ -95,13 +80,9 @@ public class PuestoService extends ServiceBase implements IPuestoService {
             }
         }
         catch (Exception ex){
-            logger.error("ERROR en ObtenerPaginado",ex);
             throw ex;
         }
-        finally
-        {
-            logger.info("Termina ObtenerPaginado");
-        }
+        
 
         return puestos;
     }
@@ -111,8 +92,6 @@ public class PuestoService extends ServiceBase implements IPuestoService {
         Puesto emp = null;
         try
         {
-            logger.info("Inicia Registrar");
-
             emp = puestoRepository.Registrar(puesto);
             if(!emp.Estatus)
             {
@@ -123,10 +102,7 @@ public class PuestoService extends ServiceBase implements IPuestoService {
             logger.error("ERROR en Registrar",ex);
             throw ex;
         }
-        finally
-        {
-            logger.info("Termina Registrar");
-        }
+        
 
         return emp;
     }
@@ -136,8 +112,6 @@ public class PuestoService extends ServiceBase implements IPuestoService {
         Puesto emp = null;
         try
         {
-            logger.info("Inicia Actualizar");
-
             emp = puestoRepository.Actualizar(puesto);
             if(!emp.Estatus)
             {
@@ -148,10 +122,7 @@ public class PuestoService extends ServiceBase implements IPuestoService {
             logger.error("ERROR en Actualizar",ex);
             throw ex;
         }
-        finally
-        {
-            logger.info("Termina Actualizar");
-        }
+        
 
         return emp;
     }
@@ -161,8 +132,6 @@ public class PuestoService extends ServiceBase implements IPuestoService {
         Puesto emp = null;
         try
         {
-            logger.info("Inicia Eliminar");
-
             emp = puestoRepository.Eliminar(puesto);
             if(!emp.Estatus)
             {
@@ -170,12 +139,7 @@ public class PuestoService extends ServiceBase implements IPuestoService {
             }
         }
         catch (Exception ex){
-            logger.error("ERROR en Eliminar",ex);
             throw ex;
-        }
-        finally
-        {
-            logger.info("Termina Eliminar");
         }
 
         return emp;
