@@ -17,10 +17,13 @@ AS
         ,@empleado_id INT
         ,@sku VARCHAR(5)
         ,@cantidad INT
+        --
+        ,@affectedRows INT
         ,@busqueda VARCHAR(512)
         ,@pagina int
         ,@paginado int
         ,@success BIT
+        ,@exception BIT
         ,@message VARCHAR(1024)
 
 
@@ -33,9 +36,9 @@ AS
 		BEGIN TRANSACTION
 		BEGIN TRY
 
-            SET @empleado_id = JSON_VALUE(@json, '$.EmpleadoID');
-            SET @sku = JSON_VALUE(@json, '$.SKU');
-            SET @cantidad = JSON_VALUE(@json, '$.Cantidad');
+            SET @empleado_id = JSON_VALUE(@json, '$.empleadoID');
+            SET @sku = JSON_VALUE(@json, '$.sku');
+            SET @cantidad = JSON_VALUE(@json, '$.cantidad');
 
             DECLARE @cantidad_en_inventario INT
 
@@ -61,7 +64,10 @@ AS
                     ,getdate()
                 )
 
-                IF @@ROWCOUNT > 0
+                SET @affectedRows = @@ROWCOUNT
+                
+
+                IF @affectedRows > 0
                 BEGIN
                     UPDATE polizas..MovInventario
                     SET
@@ -74,23 +80,24 @@ AS
                 END
                 ELSE
                 BEGIN
-                    SET @message = 'NO se registro la Poliza'
+                    SET @message = 'ERR|NO se registro la Poliza'
                 END
             END
             ELSE
             BEGIN
-                SET @message = 'La cantidad en invetario es menor a la solicitada'
+                SET @message = 'ERR|La cantidad en invetario es menor a la solicitada'
             END
-
+            
             COMMIT
-            SELECT @success as Estatus, @message as Mensaje
+
 		END TRY 
 		BEGIN CATCH
 			ROLLBACK
 			SET @message = CONCAT('ERROR|[',ERROR_PROCEDURE(),':',ERROR_LINE(),']|',ERROR_MESSAGE())
-
-            SELECT @success as Estatus, @message as Mensaje
 		END CATCH
+
+        SELECT ISNULL(@id,0) as Id, @success as Estatus, @message as Mensaje
+
 	END 
 	-- SELECCIONAR
 	ELSE IF @operation = 2 
@@ -103,6 +110,7 @@ AS
                 ,P.EmpleadoID
                 ,P.SKU
                 ,CONCAT(E.Nombre,' ',E.Apellido) as Empleado
+                ,1 as Estatus
             FROM
                 polizas..MovPolizas (NOLOCK) P
             INNER JOIN
@@ -110,7 +118,7 @@ AS
             WHERE
                 P.Activo = 1
             AND
-                P.Id = ISNULL(JSON_VALUE(@json,'$.Id'),P.Id)
+                P.Id = ISNULL(JSON_VALUE(@json,'$.id'),P.Id)
             ORDER BY
                 P.FechaRegistro DESC
 			
@@ -131,18 +139,18 @@ AS
 		BEGIN TRANSACTION 
 		BEGIN TRY
 
-            UPDATE CatEmpleado
+            UPDATE MovPolizas
             SET
-                Nombre = ISNULL(JSON_VALUE(@json,'$.Nombre'),'')
-                ,Apellido = ISNULL(JSON_VALUE(@json,'$.Apellido'),'')
-                ,PuestoID = ISNULL(JSON_VALUE(@json,'$.PuestoID'),0)
+                EmpleadoID = ISNULL(JSON_VALUE(@json,'$.empleadoID'),EmpleadoID)
+                ,SKU = ISNULL(JSON_VALUE(@json,'$.sku'),SKU)
+                ,Cantidad = ISNULL(JSON_VALUE(@json,'$.cantidad'),Cantidad)
             WHERE
-                Id = JSON_VALUE(@json,'$.Id')
+                Id = JSON_VALUE(@json,'$.id')
 			
-
+            SET @affectedRows = @@ROWCOUNT
 			COMMIT
 
-			IF @@ROWCOUNT > 0 BEGIN 
+			IF @affectedRows > 0 BEGIN 
 				SET @success = 1
 				SET @message = 'REGISTRO ACTUALIZADO'
 			END ELSE
@@ -163,7 +171,7 @@ AS
         BEGIN TRANSACTION 
 		BEGIN TRY
 
-            SET @id  = JSON_VALUE(@json, '$.Id')
+            SET @id  = JSON_VALUE(@json, '$.id')
 
             SELECT TOP 1
                 @sku = SKU,
@@ -207,9 +215,9 @@ AS
 	BEGIN
         BEGIN TRY
 
-            SET @busqueda = JSON_VALUE(@json, '$.Busqueda')
-            SET @pagina = JSON_VALUE(@json, '$.Pagina')
-            SET @paginado = JSON_VALUE(@json, '$.Paginado')
+            SET @busqueda = JSON_VALUE(@json, '$.busqueda')
+            SET @pagina = JSON_VALUE(@json, '$.pagina')
+            SET @paginado = JSON_VALUE(@json, '$.paginado')
 
             SELECT
                 P.Id
