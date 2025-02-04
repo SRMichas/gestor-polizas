@@ -16,6 +16,10 @@ const routes: Routes = [
         path: 'empleado',
         loadChildren: () => import('./views/empleado/empleado.module').then((m) => m.EmpleadoPageModule),
       },
+      {
+        path: 'puesto',
+        loadChildren: () => import('./views/puesto/puesto.module').then((m) => m.PuestoPageModule),
+      },
       // {
       //   path: 'radio',
       //   loadChildren: () => import('./radio/radio-page.module').then((m) => m.RadioPageModule),
