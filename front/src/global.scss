@@ -60,3 +60,13 @@
   color: red;
 }
 
+.main-container{
+  height: 100vh;
+  // width: 100%;
+  position: relative;
+
+  .content{
+    padding: 32px;
+  }
+}
+

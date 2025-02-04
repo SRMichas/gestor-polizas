@@ -1,10 +1,10 @@
 export class GeneralParams{
-  Estatus?: boolean;
-  Mensaje?: string;
-  TotalPaginas?: number;
-  Busqueda?: string;
-  Pagina?: number;
-  Paginado?: number;
-  Activo?: boolean;
-  FechaRegistro?: Date;
+  estatus?: boolean = false;
+  mensaje?: string = "";
+  totalPaginas?: number = 0;
+  busqueda?: string = "";
+  pagina?: number = 0;
+  paginado?: number = 0;
+  activo?: boolean = false;
+  fechaRegistro?: Date = new Date();
 }

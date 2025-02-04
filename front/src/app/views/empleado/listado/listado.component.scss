@@ -1,0 +1,164 @@
+.main-container{
+  height: 100vh;
+  // width: 100%;
+  position: relative;
+}
+
+.div-search{
+  padding: 0 16px;
+  justify-content: space-between;
+  .search-dv{
+    flex-grow: 1;
+    .search{
+      width: 45%;
+      margin-right: 20px;
+    }
+  }
+}
+
+.front{
+  background: white;
+  height: 100%;
+  /* z-index: 7; */
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  //
+  display: flex;
+  flex-direction: column;
+}
+
+.back{
+  background: green;
+  height: 100%;
+  width: 100%;
+  /* z-index: 12; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: auto;
+}
+
+.tabla {
+  width: 100%;
+  flex-grow: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+table {
+  width: 98%;
+  margin: 1%;
+  flex-grow: 1;
+  overflow: auto;
+  //   text-align: center;
+}
+table tr {
+  text-align: center;
+  //   border: 1px solid rgba(195, 195, 195, 1);
+}
+table th {
+  text-align: center;
+  background: rgba(87, 42, 49, 1);
+  color: white;
+  border: 1px solid rgba(195, 195, 195, 1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+  padding: 0;
+  border: 1px solid rgba(195, 195, 195, 1);
+  // border: solid;
+}
+.ojoIcono {
+  color: rgba(99, 101, 105, 1);
+}
+
+.dv-acciones{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  div{
+    cursor: pointer;
+  }
+  ion-icon{
+    pointer-events: none;
+  }
+}
+
+.mat-column-ver{
+  width: 8%;
+}
+.mat-column-rfc, .mat-column-importe{
+  width: 12%;
+}
+.mat-column-nombre{
+  width: 35%;
+}
+// .mat-column-importe{
+//   width: 18%;
+// }
+.mat-column-acciones{
+  width: 12%;
+}
+
+.dvPaginados{
+
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  padding-right: 2%;
+  padding-bottom: 5px;
+
+  input, ion-input{
+    background: white;
+    --background: white;
+    width: 50px;
+    --width: 50px;
+    text-align: right;
+  }
+
+  div{
+    margin: 0 6px;
+  }
+
+  ion-icon{
+    font-size: 20px !important;
+    margin: 0px !important;
+    color: #9c192f;
+    cursor: pointer;
+  }
+
+  ion-icon:first-child{
+    margin-right: 5px !important;
+  }
+  ion-icon:last-child{
+    margin-left: 5px !important;
+  }
+}
+
+ion-footer{
+  text-align: center;
+  background: white;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  td.mat-cell:last-of-type,
+  td.mat-footer-cell:last-of-type {
+    padding-right: 0px !important;
+  }
+  .mat-row {
+    height: auto;
+  }
+
+  .mat-cell {
+    padding: 8px 8px 8px 0;
+  }
+}

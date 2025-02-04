@@ -12,10 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TabsComponent } from './views/components/tabs/tabs.component';
+// import { MatTableModule } from '@angular/material/table';
+
 
 // import { AngularEditorModule } from '@kolkov/angular-editor/public-api';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, TabsComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -27,7 +30,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatIconModule,
     HttpClientModule,
     MatPaginatorModule,
-    HttpClientModule,
+    HttpClientModule
+    // ,MatTableModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

@@ -1,9 +1,9 @@
 import { GeneralParams } from "./GeneralParams.model";
 
 export class Empleado extends GeneralParams{
-  Id?: number;
-  Nombre?: string;
-  Apellido?: string;
-  PuestoID?: number;
-  Puesto?: string;
+  id?: number = 0;
+  nombre?: string = "";
+  apellido?: string = "";
+  puestoID?: number = 0;
+  puesto?: string = "";
 }
