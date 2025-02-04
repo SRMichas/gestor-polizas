@@ -1,0 +1,7 @@
+{
+  "name": "creditos-fiscales",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
