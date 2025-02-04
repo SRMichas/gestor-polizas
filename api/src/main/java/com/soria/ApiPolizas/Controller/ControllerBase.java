@@ -25,6 +25,25 @@ public class ControllerBase {
         return response;
     }
 
+    protected ResponseAPI BuildException(Exception ex, String message){
+        ResponseAPI response = new ResponseAPI();
+
+        response.setMeta(new Meta("FAILURE"));
+
+        String finalMessage = "";
+        if(ex.getMessage().startsWith("ERR|")) {
+            String[] msgs = ex.getMessage().split("ERR\\|");
+            finalMessage = msgs[1];
+        }else{
+            finalMessage = message;
+        }
+
+
+        response.setData(new Mensaje(finalMessage));
+
+        return response;
+    }
+
     protected void LogException(Logger logger, String message, Exception ex){
         logger.error(message,ex);
     }
