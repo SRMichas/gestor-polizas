@@ -70,3 +70,100 @@
   }
 }
 
+.tabla {
+  width: 100%;
+  flex-grow: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  max-height: 75vh;
+
+  table {
+    width: 98%;
+    margin: 1%;
+    flex-grow: 1;
+    overflow: auto;
+
+    tr{
+      text-align: center;
+    }
+
+    th {
+      text-align: center;
+      background: rgba(87, 42, 49, 1);
+      color: white;
+      border: 1px solid rgba(195, 195, 195, 1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    th.mat-header-cell,
+    td.mat-cell,
+    td.mat-footer-cell {
+      padding: 0;
+      border: 1px solid rgba(195, 195, 195, 1);
+      // border: solid;
+    }
+
+    .ojoIcono {
+      color: rgba(99, 101, 105, 1);
+    }
+
+    .dv-acciones{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      div{
+        cursor: pointer;
+      }
+      ion-icon{
+        pointer-events: none;
+      }
+    }
+
+  }
+
+  .dvPaginados{
+
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding-right: 2%;
+    padding-bottom: 5px;
+
+    input, ion-input{
+      background: white;
+      --background: white;
+      width: 50px;
+      --width: 50px;
+      text-align: right;
+    }
+
+    div{
+      margin: 0 6px;
+    }
+
+    ion-icon{
+      font-size: 20px !important;
+      margin: 0px !important;
+      color: #9c192f;
+      cursor: pointer;
+    }
+
+    ion-icon:first-child{
+      margin-right: 5px !important;
+    }
+    ion-icon:last-child{
+      margin-left: 5px !important;
+    }
+  }
+
+}
+
+@media screen and (max-height: 700px) {
+  .tabla {
+    max-height: 65vh;
+  }
+}

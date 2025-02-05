@@ -1,7 +1,7 @@
 import { GeneralParams } from "./GeneralParams.model";
 
 export class Inventario extends GeneralParams{
-  SKU?: string;
-  Nombre?: string;
-  Cantidad?: number;
+  sku?: string = "";
+  nombre?: string = "";
+  cantidad?: number = 0;
 }

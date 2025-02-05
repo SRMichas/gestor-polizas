@@ -20,6 +20,10 @@ const routes: Routes = [
         path: 'puesto',
         loadChildren: () => import('./views/puesto/puesto.module').then((m) => m.PuestoPageModule),
       },
+      {
+        path: 'inventario',
+        loadChildren: () => import('./views/inventario/inventario.module').then((m) => m.InventarioPageModule),
+      },
       // {
       //   path: 'radio',
       //   loadChildren: () => import('./radio/radio-page.module').then((m) => m.RadioPageModule),
