@@ -24,18 +24,10 @@ const routes: Routes = [
         path: 'inventario',
         loadChildren: () => import('./views/inventario/inventario.module').then((m) => m.InventarioPageModule),
       },
-      // {
-      //   path: 'radio',
-      //   loadChildren: () => import('./radio/radio-page.module').then((m) => m.RadioPageModule),
-      // },
-      // {
-      //   path: 'library',
-      //   loadChildren: () => import('./library/library-page.module').then((m) => m.LibraryPageModule),
-      // },
-      // {
-      //   path: 'search',
-      //   loadChildren: () => import('./search/search-page.module').then((m) => m.SearchPageModule),
-      // },
+      {
+        path: 'poliza',
+        loadChildren: () => import('./views/poliza/poliza.module').then((m) => m.PolizaPageModule),
+      },
     ],
   },
   // {
