@@ -11,13 +11,13 @@ BEGIN TRY
 	IF OBJECT_ID('dbo.CatEmpleado') is null
 	BEGIN	
 		CREATE TABLE [dbo].[CatEmpleado](
-			Id int NOT NULL IDENTITY PRIMARY KEY,
+			IdEmpleado int NOT NULL IDENTITY PRIMARY KEY,
 			Nombre VARCHAR(250) NOT NULL,
 			Apellido VARCHAR(250) NOT NULL,
-			PuestoID INT NOT NULL,
+			IdPuesto INT NOT NULL,
 			Activo BIT NOT NULL,
 			FechaRegistro DATETIME NOT NULL
-			CONSTRAINT FK_empleado_puesto FOREIGN KEY (PuestoID) REFERENCES CatPuesto(Id)
+			CONSTRAINT FK_empleado_puesto FOREIGN KEY (IdPuesto) REFERENCES CatPuesto(IdPuesto)
 		)
 	END
 
@@ -34,34 +34,34 @@ BEGIN TRY
     BEGIN TRAN TR_INSERT_IN_TABLE
 	
 	DECLARE @id INT = 1
-	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatEmpleado where Id = @id),0) = 0
+	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatEmpleado where IdEmpleado = @id),0) = 0
 	BEGIN	
-		insert into dbo.CatEmpleado (Id, Nombre, Apellido, PuestoID, Activo, FechaRegistro) values (@id, 'Elias', 'Soria',@id ,1, getdate())
+		insert into dbo.CatEmpleado (IdEmpleado, Nombre, Apellido, IdPuesto, Activo, FechaRegistro) values (@id, 'Elias', 'Soria',@id ,1, getdate())
 	END
 
 	SET @id = 2
-	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatEmpleado where Id = @id),0) = 0
+	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatEmpleado where IdEmpleado = @id),0) = 0
 	BEGIN	
-		insert into dbo.CatEmpleado (Id, Nombre, Apellido, PuestoID, Activo, FechaRegistro) values (@id, 'Misael', 'Ramirez',@id ,1, getdate())
+		insert into dbo.CatEmpleado (IdEmpleado, Nombre, Apellido, IdPuesto, Activo, FechaRegistro) values (@id, 'Misael', 'Ramirez',@id ,1, getdate())
 	END
 
 	SET @id = 3
-	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatEmpleado where Id = @id),0) = 0
+	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatEmpleado where IdEmpleado = @id),0) = 0
 	BEGIN	
-		insert into dbo.CatEmpleado (Id, Nombre, Apellido, PuestoID, Activo, FechaRegistro) values (@id, 'Juan', 'Soto',@id ,1, getdate())
+		insert into dbo.CatEmpleado (IdEmpleado, Nombre, Apellido, IdPuesto, Activo, FechaRegistro) values (@id, 'Juan', 'Soto',@id ,1, getdate())
 	END
 
 	SET @id = 4
-	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatEmpleado where Id = @id),0) = 0
+	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatEmpleado where IdEmpleado = @id),0) = 0
 	BEGIN	
-		insert into dbo.CatEmpleado (Id, Nombre, Apellido, PuestoID, Activo, FechaRegistro) values (@id, 'Emilia', 'Perez',@id ,1, getdate())
+		insert into dbo.CatEmpleado (IdEmpleado, Nombre, Apellido, IdPuesto, Activo, FechaRegistro) values (@id, 'Emilia', 'Perez',@id ,1, getdate())
 	END
 
 
 	SET @id = 5
-	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatEmpleado where Id = @id),0) = 0
+	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatEmpleado where IdEmpleado = @id),0) = 0
 	BEGIN	
-		insert into dbo.CatEmpleado (Id, Nombre, Apellido, PuestoID, Activo, FechaRegistro) values (@id, 'Omar', 'Echeverria',@id ,1, getdate())
+		insert into dbo.CatEmpleado (IdEmpleado, Nombre, Apellido, IdPuesto, Activo, FechaRegistro) values (@id, 'Omar', 'Echeverria',@id ,1, getdate())
 	END
 
     COMMIT TRAN TR_INSERT_IN_TABLE

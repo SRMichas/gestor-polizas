@@ -36,26 +36,6 @@ public class EmpleadoRepository implements IEmpleadoRepository {
     }
 
     @Override
-    public List<Empleado> ObtenerPaginado(Empleado empleado) throws JsonProcessingException {
-        String json = objectMapper.writeValueAsString(empleado);
-
-        return jdbcTemplate.query(Procedure, new Object[]{5,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
-                BeanPropertyRowMapper.newInstance(Empleado.class));
-    }
-
-    @Override
-    public Empleado Registrar(Empleado empleado) throws Exception{
-        String json = objectMapper.writeValueAsString(empleado);
-
-        Empleado result = jdbcTemplate.queryForObject(Procedure, new Object[]{1,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
-                BeanPropertyRowMapper.newInstance(Empleado.class));
-
-        return result;
-    }
-
-    @Override
     public Empleado Actualizar(Empleado empleado) throws Exception{
         String json = objectMapper.writeValueAsString(empleado);
 
@@ -66,14 +46,4 @@ public class EmpleadoRepository implements IEmpleadoRepository {
         return result;
     }
 
-    @Override
-    public Empleado Eliminar(Empleado empleado) throws Exception{
-        String json = objectMapper.writeValueAsString(empleado);
-
-        Empleado result = jdbcTemplate.queryForObject(Procedure, new Object[]{4,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
-                BeanPropertyRowMapper.newInstance(Empleado.class));
-
-        return result;
-    }
 }

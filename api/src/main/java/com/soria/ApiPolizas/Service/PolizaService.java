@@ -19,54 +19,6 @@ public class PolizaService extends ServiceBase implements IPolizaService {
     private IPolizaRepository polizaRepository;
 
     @Override
-    public List<Poliza> ObtenerActivos() throws Exception {
-        List<Poliza> polizas = List.of();
-        try
-        {
-            
-            polizas = polizaRepository.obtenerActivos();
-            if(!polizas.isEmpty())
-            {
-                Poliza poliza = polizas.getFirst();
-
-                boolean success = (poliza != null) ? poliza.Estatus : true;
-                if( !success )
-                    throw new Exception(poliza.Mensaje);
-            }
-        }
-        catch (Exception ex){
-            throw ex;
-        }
-
-        return polizas;
-    }
-
-    @Override
-    public List<Poliza> ObtenerPorId(int polizaID) throws Exception {
-        List<Poliza> polizas = List.of();
-        try
-        {
-            Poliza poliza = new Poliza();
-            poliza.setId(polizaID);
-
-            polizas = polizaRepository.ObtenerPorId(poliza);
-            if(!polizas.isEmpty())
-            {
-                poliza = polizas.getFirst();
-
-                boolean success = (poliza != null) ? poliza.Estatus : true;
-                if( !success )
-                    throw new Exception(poliza.Mensaje);
-            }
-        }
-        catch (Exception ex){
-            throw ex;
-        }
-
-        return polizas;
-    }
-
-    @Override
     public List<Poliza> ObtenerPaginado(Poliza poliza) throws Exception {
         List<Poliza> polizas = List.of();
         try
@@ -109,25 +61,6 @@ public class PolizaService extends ServiceBase implements IPolizaService {
         return pol;
     }
 
-    @Override
-    public Poliza Actualizar(Poliza poliza) throws Exception {
-        Poliza pol = null;
-        try
-        {
-            pol = polizaRepository.Actualizar(poliza);
-            if(!pol.Estatus)
-            {
-                throw new Exception(poliza.Mensaje);
-            }
-        }
-        catch (Exception ex){
-            logger.error("ERROR en Actualizar",ex);
-            throw ex;
-        }
-        
-
-        return pol;
-    }
 
     @Override
     public Poliza Eliminar(Poliza poliza) throws Exception {

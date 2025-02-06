@@ -4,17 +4,17 @@ import lombok.Data;
 
 @Data
 public class Empleado extends GeneralParams{
-    int Id;
+    int IdEmpleado;
     String Nombre;
     String Apellido;
-    int PuestoID;
+    int IdPuesto;
     String Puesto;
 
-    public void setId(int id) {
-        Id = id;
+    public void setIdEmpleado(int idEmpleado) {
+        IdEmpleado = idEmpleado;
     }
 
-    public int getId() {
-        return Id;
+    public int getIdEmpleado() {
+        return IdEmpleado;
     }
 }

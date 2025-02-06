@@ -21,47 +21,6 @@ public class PolizaController extends ControllerBase{
     @Autowired
     private IPolizaService polizaServices;
 
-    @GetMapping("/obtenerActivos")
-    public ResponseEntity<ResponseAPI> ObtenerActivos(){
-        ResponseAPI result = null;
-        try
-        {
-            logger.info("Inicia ObtenerActivos");
-            result = BuildResponse(polizaServices.ObtenerActivos());
-        }
-        catch (Exception ex){
-            result = BuildException("Ha ocurrido un error al obtener las polizas activos");
-            LogException(logger,"ERROR en ObtenerActivos", ex);
-        }
-        finally
-        {
-            logger.info("Termina ObtenerActivos");
-        }
-
-        return  new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @GetMapping("/ObtenerPorId/{id}")
-    public ResponseEntity<ResponseAPI> ObtenerPorId(@PathVariable int id){
-        ResponseAPI result = null;
-        try
-        {
-            logger.info("Inicia ObtenerPorId");
-
-            result = BuildResponse(polizaServices.ObtenerPorId(id));
-        }
-        catch (Exception ex){
-            result = BuildException("Ha ocurrido un error al obtener las polizas por ID");
-            LogException(logger,"ERROR en ObtenerPorId", ex);
-        }
-        finally
-        {
-            logger.info("Termina ObtenerActivos");
-        }
-
-        return  new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
     @PostMapping("/ObtenerPaginado")
     public ResponseEntity<ResponseAPI> ObtenerPaginado(@RequestBody Poliza poliza){
         ResponseAPI result = null;
@@ -104,28 +63,6 @@ public class PolizaController extends ControllerBase{
         return  new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PutMapping("/Actualizar")
-    public ResponseEntity<ResponseAPI> Actualizar(@RequestBody Poliza poliza){
-        ResponseAPI result = null;
-        try
-        {
-            logger.info("Inicia Actualizar");
-            Poliza pol = polizaServices.Actualizar(poliza);
-            String msg = String.format("Se actualizó correctamente la poliza %d", pol.getId());
-            result = BuildResponse(new Mensaje(msg));
-        }
-        catch (Exception ex){
-            result = BuildException(ex,"Ha ocurrido un error al actualiar el poliza");
-            LogException(logger,"ERROR en Actualizar", ex);
-        }
-        finally
-        {
-            logger.info("Termina Actualizar");
-        }
-
-        return  new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
     @DeleteMapping("/Eliminar")
     public ResponseEntity<ResponseAPI> Eliminar(@RequestBody Poliza poliza){
         ResponseAPI result = null;
@@ -134,7 +71,7 @@ public class PolizaController extends ControllerBase{
             logger.info("Inicia Eliminar");
 
             Poliza pol = polizaServices.Eliminar(poliza);
-            String msg = String.format("Se eliminó correctamente la poliza %d", pol.getId());
+            String msg = String.format("Se eliminó correctamente la poliza %d", pol.getIdPoliza());
             result = BuildResponse(new Mensaje(msg));
         }
         catch (Exception ex){

@@ -24,54 +24,5 @@ public class PuestoRepository implements IPuestoRepository {
                 BeanPropertyRowMapper.newInstance(Puesto.class));
     }
 
-    @Override
-    public List<Puesto> ObtenerPorId(Puesto puesto) throws Exception {
-        String json = objectMapper.writeValueAsString(puesto);
-
-        return jdbcTemplate.query(Procedure, new Object[]{2,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
-                BeanPropertyRowMapper.newInstance(Puesto.class));
-    }
-
-    @Override
-    public List<Puesto> ObtenerPaginado(Puesto puesto) throws Exception {
-        String json = objectMapper.writeValueAsString(puesto);
-
-        return jdbcTemplate.query(Procedure, new Object[]{5,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
-                BeanPropertyRowMapper.newInstance(Puesto.class));
-    }
-
-    @Override
-    public Puesto Registrar(Puesto puesto) throws Exception{
-        String json = objectMapper.writeValueAsString(puesto);
-
-        Puesto result = jdbcTemplate.queryForObject(Procedure, new Object[]{1,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
-                BeanPropertyRowMapper.newInstance(Puesto.class));
-
-        return result;
-    }
-
-    @Override
-    public Puesto Actualizar(Puesto puesto) throws Exception{
-        String json = objectMapper.writeValueAsString(puesto);
-
-        Puesto result = jdbcTemplate.queryForObject(Procedure, new Object[]{3,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
-                BeanPropertyRowMapper.newInstance(Puesto.class));
-
-        return result;
-    }
-
-    @Override
-    public Puesto Eliminar(Puesto puesto) throws Exception{
-        String json = objectMapper.writeValueAsString(puesto);
-
-        Puesto result = jdbcTemplate.queryForObject(Procedure, new Object[]{4,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
-                BeanPropertyRowMapper.newInstance(Puesto.class));
-
-        return result;
-    }
+    
 }

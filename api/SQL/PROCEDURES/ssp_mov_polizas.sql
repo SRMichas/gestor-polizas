@@ -36,7 +36,7 @@ AS
 		BEGIN TRANSACTION
 		BEGIN TRY
 
-            SET @empleado_id = JSON_VALUE(@json, '$.empleadoID');
+            SET @empleado_id = JSON_VALUE(@json, '$.idEmpleado');
             SET @sku = JSON_VALUE(@json, '$.sku');
             SET @cantidad = JSON_VALUE(@json, '$.cantidad');
 
@@ -49,7 +49,7 @@ AS
             BEGIN
                 INSERT INTO polizas..MovPolizas
                 (
-                    EmpleadoID
+                    idEmpleado
                     ,SKU
                     ,Cantidad
                     ,Activo
@@ -105,20 +105,20 @@ AS
         BEGIN TRY
 			
             SELECT
-                 P.Id
+                 P.idPoliza
                 ,P.Cantidad
-                ,P.EmpleadoID
+                ,P.idEmpleado
                 ,P.SKU
                 ,CONCAT(E.Nombre,' ',E.Apellido) as Empleado
                 ,1 as Estatus
             FROM
                 polizas..MovPolizas (NOLOCK) P
             INNER JOIN
-                polizas..CatEmpleado (NOLOCK) E ON E.Id = P.EmpleadoID AND E.Activo = 1
+                polizas..CatEmpleado (NOLOCK) E ON E.idEmpleado = P.idEmpleado AND E.Activo = 1
             WHERE
                 P.Activo = 1
             AND
-                P.Id = ISNULL(JSON_VALUE(@json,'$.id'),P.Id)
+                P.idPoliza = ISNULL(JSON_VALUE(@json,'$.idPoliza'),P.idPoliza)
             ORDER BY
                 P.FechaRegistro DESC
 			
@@ -141,11 +141,11 @@ AS
 
             UPDATE MovPolizas
             SET
-                EmpleadoID = ISNULL(JSON_VALUE(@json,'$.empleadoID'),EmpleadoID)
+                idEmpleado = ISNULL(JSON_VALUE(@json,'$.empleadoID'),idEmpleado)
                 ,SKU = ISNULL(JSON_VALUE(@json,'$.sku'),SKU)
                 ,Cantidad = ISNULL(JSON_VALUE(@json,'$.cantidad'),Cantidad)
             WHERE
-                Id = JSON_VALUE(@json,'$.id')
+                idPoliza = JSON_VALUE(@json,'$.idPoliza')
 			
             SET @affectedRows = @@ROWCOUNT
 			COMMIT
@@ -171,7 +171,7 @@ AS
         BEGIN TRANSACTION 
 		BEGIN TRY
 
-            SET @id  = JSON_VALUE(@json, '$.id')
+            SET @id  = JSON_VALUE(@json, '$.idPoliza')
 
             SELECT TOP 1
                 @sku = SKU,
@@ -181,14 +181,14 @@ AS
             WHERE   
                 Activo = 1
             AND
-                Id = @id
+                idPoliza = @id
 
             --INHABILITANDO POLIZA ACTUAL
             UPDATE MovPolizas
             SET
                 Activo = 0
             WHERE
-                Id = @id
+                idPoliza = @id
 
             --RESTAURANDO INVENTARIO
             UPDATE MovInventario
@@ -220,18 +220,21 @@ AS
             SET @paginado = JSON_VALUE(@json, '$.paginado')
 
             SELECT
-                P.Id
+                P.idPoliza
                 ,P.SKU
                 ,P.Cantidad
                 ,P.FechaRegistro
-                ,E.Id as EmpleadoID
+                ,E.idEmpleado
                 ,CONCAT(E.Nombre,' ',E.Apellido) as Empleado
+                ,I.Nombre as Inventario
                 ,CEILING((COUNT(0) OVER()) / convert(decimal(10,2),@paginado)) as TotalPaginas
                 ,1 as Estatus
             FROM
                 polizas..MovPolizas (NOLOCK) P
             INNER JOIN
-                polizas..CatEmpleado (NOLOCK) E ON E.Id = P.EmpleadoID AND E.Activo = 1
+                polizas..CatEmpleado (NOLOCK) E ON E.idEmpleado = P.idEmpleado AND E.Activo = 1
+            INNER JOIN
+                polizas..MovInventario (NOLOCK) I ON P.SKU = I.sku AND I.Activo = 1
             WHERE
                 P.Activo = 1
             AND
@@ -255,5 +258,6 @@ AS
             SELECT TOP 1 0 as Estatus, @message as Mensaje
 		END CATCH
 	END
+    exec dbo.spp_guardarBitacora @@PROCID, @operation,@json,@success,@message,@exception
 	
 GO

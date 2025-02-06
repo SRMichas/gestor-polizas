@@ -11,7 +11,7 @@ BEGIN TRY
 	IF OBJECT_ID('dbo.CatPuesto') is null
 	BEGIN	
 		CREATE TABLE [dbo].[CatPuesto](
-			Id int NOT NULL IDENTITY PRIMARY KEY,
+			IdPuesto int NOT NULL IDENTITY PRIMARY KEY,
 			Nombre VARCHAR(250) NOT NULL,
 			Activo BIT NOT NULL,
 			FechaRegistro DATETIME NOT NULL
@@ -31,33 +31,33 @@ BEGIN TRY
     BEGIN TRAN TR_INSERT_IN_TABLE
 	
 	DECLARE @id INT = 1
-	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatPuesto where Id = @id),0) = 0
+	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatPuesto where IdPuesto = @id),0) = 0
 	BEGIN	
-		insert into dbo.CatPuesto (Id, Nombre, Activo, FechaRegistro) values (@id, 'Supervisor Regional',1, getdate())
+		insert into dbo.CatPuesto (IdPuesto, Nombre, Activo, FechaRegistro) values (@id, 'Supervisor Regional',1, getdate())
 	END
 
 	SET @id = 2
-	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatPuesto where Id = @id),0) = 0
+	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatPuesto where IdPuesto = @id),0) = 0
 	BEGIN	
-		insert into dbo.CatPuesto (Id, Nombre, Activo, FechaRegistro) values (@id, 'Gerente',1, getdate())
+		insert into dbo.CatPuesto (IdPuesto, Nombre, Activo, FechaRegistro) values (@id, 'Gerente',1, getdate())
 	END
 
 	SET @id = 3
-	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatPuesto where Id = @id),0) = 0
+	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatPuesto where IdPuesto = @id),0) = 0
 	BEGIN	
-		insert into dbo.CatPuesto (Id, Nombre, Activo, FechaRegistro) values (@id, 'Inventarista',1, getdate())
+		insert into dbo.CatPuesto (IdPuesto, Nombre, Activo, FechaRegistro) values (@id, 'Inventarista',1, getdate())
 	END
 
 	SET @id = 4
-	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatPuesto where Id = @id),0) = 0
+	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatPuesto where IdPuesto = @id),0) = 0
 	BEGIN	
-		insert into dbo.CatPuesto (Id, Nombre, Activo, FechaRegistro) values (@id, 'Vendedor',1, getdate())
+		insert into dbo.CatPuesto (IdPuesto, Nombre, Activo, FechaRegistro) values (@id, 'Vendedor',1, getdate())
 	END
 
 	SET @id = 5
-	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatPuesto where Id = @id),0) = 0
+	IF ISNULL( (SELECT COUNT(0) FROM dbo.CatPuesto where IdPuesto = @id),0) = 0
 	BEGIN	
-		insert into dbo.CatPuesto (Id, Nombre, Activo, FechaRegistro) values (@id, 'Cajero',1, getdate())
+		insert into dbo.CatPuesto (IdPuesto, Nombre, Activo, FechaRegistro) values (@id, 'Cajero',1, getdate())
 	END
 
     COMMIT TRAN TR_INSERT_IN_TABLE

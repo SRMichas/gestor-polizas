@@ -4,17 +4,18 @@ import lombok.Data;
 
 @Data
 public class Poliza extends GeneralParams{
-    int Id;
-    int EmpleadoID;
+    int IdPoliza;
+    int IdEmpleado;
     String Empleado;
     String SKU;
     int Cantidad;
+    String Inventario;
 
-    public void setId(int id) {
-        Id = id;
+    public void setIdPoliza(int idPoliza) {
+        IdPoliza = idPoliza;
     }
 
-    public int getId() {
-        return Id;
+    public int getIdPoliza() {
+        return IdPoliza;
     }
 }

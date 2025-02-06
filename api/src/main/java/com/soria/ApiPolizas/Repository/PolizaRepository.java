@@ -17,21 +17,7 @@ public class PolizaRepository implements IPolizaRepository {
     private JdbcTemplate jdbcTemplate;
     ObjectMapper objectMapper = new ObjectMapper();
 
-    @Override
-    public List<Poliza> obtenerActivos() {
-        return jdbcTemplate.query(Procedure, new Object[]{2,"{}"},
-                new int[]{Types.INTEGER, Types.VARCHAR},
-                BeanPropertyRowMapper.newInstance(Poliza.class));
-    }
-
-    @Override
-    public List<Poliza> ObtenerPorId(Poliza poliza) throws Exception {
-        String json = objectMapper.writeValueAsString(poliza);
-
-        return jdbcTemplate.query(Procedure, new Object[]{2,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
-                BeanPropertyRowMapper.newInstance(Poliza.class));
-    }
+    
 
     @Override
     public List<Poliza> ObtenerPaginado(Poliza poliza) throws Exception {
@@ -47,17 +33,6 @@ public class PolizaRepository implements IPolizaRepository {
         String json = objectMapper.writeValueAsString(poliza);
 
         Poliza result = jdbcTemplate.queryForObject(Procedure, new Object[]{1,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
-                BeanPropertyRowMapper.newInstance(Poliza.class));
-
-        return result;
-    }
-
-    @Override
-    public Poliza Actualizar(Poliza poliza) throws Exception{
-        String json = objectMapper.writeValueAsString(poliza);
-
-        Poliza result = jdbcTemplate.queryForObject(Procedure, new Object[]{3,json},
                 new int[]{Types.INTEGER, Types.VARCHAR},
                 BeanPropertyRowMapper.newInstance(Poliza.class));
 

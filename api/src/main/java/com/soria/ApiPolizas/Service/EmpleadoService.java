@@ -46,7 +46,7 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
         try
         {
             Empleado empleado = new Empleado();
-            empleado.setId(empleadoID);
+            empleado.setIdEmpleado(empleadoID);
 
             empleados = empleadoRepository.ObtenerPorId(empleado);
             if(!empleados.isEmpty())
@@ -63,48 +63,6 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
         }
 
         return empleados;
-    }
-
-    @Override
-    public List<Empleado> ObtenerPaginado(Empleado empleado) throws Exception {
-        List<Empleado> empleados = List.of();
-        try
-        {
-
-            empleados = empleadoRepository.ObtenerPaginado(empleado);
-            if(!empleados.isEmpty())
-            {
-                Empleado emp = empleados.getFirst();
-
-                boolean success = (emp != null) ? emp.Estatus : true;
-                if( !success )
-                    throw new Exception(emp.Mensaje);
-            }
-        }
-        catch (Exception ex){
-            throw ex;
-        }
-
-        return empleados;
-    }
-
-    @Override
-    public Empleado Registrar(Empleado empleado) throws Exception {
-        Empleado emp = null;
-        try
-        {
-            emp = empleadoRepository.Registrar(empleado);
-            if(!emp.Estatus)
-            {
-                throw new Exception(empleado.Mensaje);
-            }
-        }
-        catch (Exception ex){
-            throw ex;
-        }
-        
-
-        return emp;
     }
 
     @Override
@@ -126,21 +84,4 @@ public class EmpleadoService extends ServiceBase implements IEmpleadoService {
         return emp;
     }
 
-    @Override
-    public Empleado Eliminar(Empleado empleado) throws Exception {
-        Empleado emp = null;
-        try
-        {
-            emp = empleadoRepository.Eliminar(empleado);
-            if(!emp.Estatus)
-            {
-                throw new Exception(empleado.Mensaje);
-            }
-        }
-        catch (Exception ex){
-            throw ex;
-        }
-
-        return emp;
-    }
 }
