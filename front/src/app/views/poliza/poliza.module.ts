@@ -6,7 +6,6 @@ import { PolizaPageRoutingModule } from './poliza-routing.module';
 import { PolizaPage } from './poliza.page';
 
 import { ListadoComponent } from './listado/listado.component'
-import { DetalleComponent } from './detalle/detalle.component'
 import { RegistroComponent } from './registro/registro.component'
 
 import {SharedModule} from '../../shared/shared.module'
@@ -23,7 +22,6 @@ import {SharedModule} from '../../shared/shared.module'
   declarations: [
     PolizaPage
     ,ListadoComponent
-    ,DetalleComponent
     ,RegistroComponent
   ]
 })

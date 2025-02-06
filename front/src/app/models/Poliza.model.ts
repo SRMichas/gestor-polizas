@@ -1,9 +1,10 @@
 import { GeneralParams } from "./GeneralParams.model";
 
 export class Poliza extends GeneralParams{
-  id?: number = 0;
-  empleadoID?: number = 0;
+  idPoliza?: number = 0;
+  idEmpleado?: number = 0;
   empleado?: string = "";
   sku?: string = "";
   cantidad?: number = 0;
+  inventario?: string = "";
 }

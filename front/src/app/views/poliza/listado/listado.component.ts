@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IonModal } from '@ionic/angular';
+import { Empleado } from 'src/app/models/Empleado.model';
 import { Poliza } from 'src/app/models/Poliza.model';
 import { FetchService } from 'src/app/services/fetch.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -13,23 +16,47 @@ import { UtilService } from 'src/app/services/util.service';
 })
 export class ListadoComponent implements OnInit {
 
+  //REFERENCIAS
+  @ViewChild(IonModal) modal: IonModal;
   //VARAIBLES
   busqueda: string;
   pagina: number = 1
   totalPaginas = 1;
   paginado = 20
+  // OBJETOS
+  Form: FormGroup;
+  empleado: Empleado;
   //LISTAS
   listGlobal: Poliza[] = [];
   listFlt: Poliza[] = [];
   columns: string[] = ['Empleado', 'SKU', 'Cantidad', 'acciones'];
+  //
+  validationMessages = {
+    nombre: [
+      { type: 'required', message: 'El nombre es obligatorio' },
+      { type: 'minlength', message: 'Mínimo 3 caracteres' },
+      { type: 'maxlength', message: 'Máximo 250 caracteres' },
+    ],
+    apellido: [
+      { type: 'required', message: 'El apellido es obligatorio' },
+      { type: 'minlength', message: 'Mínimo 3 caracteres' },
+      { type: 'maxlength', message: 'Máximo 250 caracteres' },
+    ],
+  };
 
   constructor(
+    private formBuilder: FormBuilder,
     private messageSrv: MessagingService,
     private loadginSrv: LoadingService,
     private router: Router,
     private fetchSrv: FetchService,
     private utilSrv: UtilService
-  ) { }
+  ) {
+    this.Form = this.formBuilder.group({
+      nombre: new FormControl("",Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(250)])),
+      apellido: new FormControl("",Validators.compose([Validators.required, Validators.minLength(3),Validators.maxLength(250)])),
+    });
+  }
 
   ngOnInit() {
     this.searchItems();
@@ -164,5 +191,71 @@ export class ListadoComponent implements OnInit {
 
   crear():void{
     this.router.navigateByUrl('/poliza/registro');
+  }
+
+  abrirModal(poliza:Poliza):void{
+    this.modal.present()
+    .then(() =>{
+      this.loadginSrv.present()
+      .then(()=>{
+        this.fetchSrv.request("GET",`empleado/ObtenerPorId/${poliza.idEmpleado}`,null)
+        .then( r =>{
+          if( r.meta.status == "OK" ){
+            this.empleado = r.data[0];
+            this.Form.patchValue({
+              nombre: this.empleado.nombre,
+              apellido: this.empleado.apellido
+            })
+          }else{
+            this.messageSrv.error(r.data.idmensaje)
+          }
+        })
+        .catch(e =>{
+          this.messageSrv.error("Error al obtener el empleado")
+        })
+        .finally(()=> this.loadginSrv.dismiss());
+      })
+    })
+
+  }
+
+  cerrar() {
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  actualizarCliente():void{
+    this.loadginSrv.present()
+    .then(()=>{
+      const value = this.Form.value;
+
+      const obj:Empleado = {
+        idEmpleado: this.empleado.idEmpleado,
+        nombre: value?.nombre ?? "",
+        apellido: value?.apellido ?? "",
+      }
+
+      this.fetchSrv.request("PUT","empleado/Actualizar",obj)
+      .then(r =>{
+        if( r.meta.status == "OK" ){
+          this.messageSrv.success("Empleado actualizado con exito");
+          setTimeout(() => {
+            this.modal.dismiss(null,"confirm")
+          }, 1000);
+        }else{
+          this.messageSrv.error(r.data.idmensaje)
+        }
+      })
+      .catch(e =>{
+
+      })
+      .finally(() => this.loadginSrv.dismiss() )
+    })
+  }
+
+  manejaModal(event: any):void{
+    // const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    if (event.detail.role === 'confirm') {
+      this.fetchItems();
+    }
   }
 }

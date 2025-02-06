@@ -14,9 +14,28 @@
           <ion-row>
             <ion-col size="12">
               <mat-form-field >
+                <mat-label>SKU</mat-label>
+                <mat-select formControlName="sku" (selectionChange)="manejarInventario()">
+                  <mat-option *ngFor="let item of inventarios" [value]="item.sku">
+                    {{item.sku}} - {{item.nombre}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngFor="let validation of validationMessages.sku">
+                  <div *ngIf="Form.get('sku').hasError(validation.type) &&
+                (Form.get('sku').dirty ||
+                Form.get('sku').touched)">
+                    {{validation.message }}
+                  </div>
+                </mat-error>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <mat-form-field >
                 <mat-label>Empleado</mat-label>
                 <mat-select formControlName="empleado">
-                  <mat-option *ngFor="let item of empleados" [value]="item.id">{{
+                  <mat-option *ngFor="let item of empleados" [value]="item.idEmpleado">{{
                     item.nombre
                   }}</mat-option>
                 </mat-select>
@@ -33,23 +52,9 @@
           <ion-row>
             <ion-col size="12">
               <mat-form-field class="search">
-                <mat-label>SKU</mat-label>
-                <input matInput formControlName="sku" placeholder="SKU" maxlength="5"/>
-                <mat-error *ngFor="let validation of validationMessages.sku">
-                  <div *ngIf="Form.get('sku').hasError(validation.type) &&
-                (Form.get('sku').dirty ||
-                Form.get('sku').touched)">
-                    {{validation.message }}
-                  </div>
-                </mat-error>
-              </mat-form-field>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="12">
-              <mat-form-field class="search">
                 <mat-label>Cantidad</mat-label>
                 <input matInput formControlName="cantidad" placeholder="Cantidad" />
+                <mat-hint *ngIf="inventario">Invetario restante: {{inventario.cantidad}}</mat-hint>
                 <mat-error *ngFor="let validation of validationMessages.cantidad">
                   <div *ngIf="Form.get('cantidad').hasError(validation.type) &&
                 (Form.get('cantidad').dirty ||

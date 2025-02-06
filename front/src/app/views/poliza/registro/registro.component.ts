@@ -7,6 +7,7 @@ import { FetchService } from 'src/app/services/fetch.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { MessagingService } from 'src/app/services/messaging.service';
 import { UtilService } from 'src/app/services/util.service';
+import { Inventario } from 'src/app/models/Inventario.model';
 
 @Component({
   selector: 'app-registro',
@@ -20,9 +21,11 @@ export class RegistroComponent implements OnInit {
   polizaID: number;
   // OBJETOS
   Form: FormGroup;
-  empleado: Poliza;
+  poliza: Poliza;
+  inventario: Inventario;
   //LISTAS
   empleados: Empleado[] = [];
+  inventarios: Inventario[] = [];
   //
   validationMessages = {
     cantidad: [
@@ -60,6 +63,7 @@ export class RegistroComponent implements OnInit {
     const state = window.history.state;
     this.editar = state?.hasOwnProperty("id") ?? false;
     this.getEmpleados();
+    this.getInvetarios();
     if( this.editar ){
       this.polizaID = state?.id ?? 0;
 
@@ -87,7 +91,7 @@ export class RegistroComponent implements OnInit {
       const obj:Poliza = {
         sku: value?.sku ?? "",
         cantidad: value?.cantidad ?? 0,
-        empleadoID: value?.empleado ?? 0
+        idEmpleado: value?.empleado ?? 0
       }
 
       const promesa = this.editar? this.fetchSrv.request("PUT","poliza/Actualizar",obj)
@@ -126,16 +130,30 @@ export class RegistroComponent implements OnInit {
     });
   }
 
+  private getInvetarios(){
+    this.fetchSrv.request("GET", "inventario/obtenerActivos",null)
+    .then( r =>{
+      if( r.meta.status == "OK"){
+        this.inventarios = r.data;
+      }else{
+        this.messageSrv.error(r.data.IDMensaje);
+      }
+    })
+    .catch(e => {
+
+    });
+  }
+
 
   private getDetail(){
     this.fetchSrv.request("GET",`poliza/ObtenerPorId/${this.polizaID}`,null)
     .then(r =>{
       if( r.meta.status == "OK"){
-        this.empleado = r.data[0];
+        this.poliza = r.data[0];
         this.Form.patchValue({
-          sku: this.empleado.sku,
-          cantidad: this.empleado.cantidad,
-          empleado: this.empleado.id
+          sku: this.poliza.sku,
+          cantidad: this.poliza.cantidad,
+          empleado: this.poliza.idEmpleado
         })
       }else{
         this.messageSrv.error(r.data.idmensaje);
@@ -145,6 +163,12 @@ export class RegistroComponent implements OnInit {
 
     })
     .finally(() => this.loadginSrv.dismiss());
+  }
+
+  manejarInventario():void{
+    const data = this.Form.value;
+
+    this.inventario = this.inventarios.find(x => x.sku == data.sku);
   }
 
 }
