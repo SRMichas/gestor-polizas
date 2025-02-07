@@ -1,2 +1,2 @@
 # coppel-polizas
-Repositorio para el examen tecnico de ingreso
+Repositorio para el gestor de polizas
