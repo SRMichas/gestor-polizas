@@ -1,0 +1,81 @@
+2025-02-18 23:42:01,444 [INFO ] com.soria.ApiEmpleados.ApiEmpleadosApplication - Starting ApiEmpleadosApplication using Java 21.0.6 with PID 20320 (D:\propio\coppel\ApiPolizas\apiEmpleado\target\classes started by elias in D:\propio\coppel\ApiPolizas\apiEmpleado)
+2025-02-18 23:42:01,447 [INFO ] com.soria.ApiEmpleados.ApiEmpleadosApplication - No active profile set, falling back to 1 default profile: "default"
+2025-02-18 23:42:01,555 [INFO ] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-02-18 23:42:01,555 [INFO ] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-02-18 23:42:03,166 [INFO ] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-02-18 23:42:03,211 [INFO ] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 0 JDBC repository interfaces.
+2025-02-18 23:42:04,135 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 9001 (http)
+2025-02-18 23:42:04,153 [INFO ] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9001"]
+2025-02-18 23:42:04,156 [INFO ] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-02-18 23:42:04,156 [INFO ] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-02-18 23:42:04,230 [INFO ] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-02-18 23:42:04,231 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2673 ms
+2025-02-18 23:42:05,106 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-02-18 23:42:05,593 [INFO ] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: f298632e-0e5c-4a30-a05f-9f9a3075ffcf
+2025-02-18 23:42:05,595 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-02-18 23:42:05,662 [WARN ] org.springframework.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-02-18 23:42:05,662 [WARN ] org.springframework.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.Instant as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-02-18 23:42:05,876 [INFO ] org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-02-18 23:42:05,896 [INFO ] org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9001"]
+2025-02-18 23:42:05,931 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 9001 (http) with context path '/'
+2025-02-18 23:42:05,945 [INFO ] com.soria.ApiEmpleados.ApiEmpleadosApplication - Started ApiEmpleadosApplication in 5.108 seconds (process running for 6.36)
+2025-02-18 23:42:16,688 [INFO ] org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-02-18 23:42:16,697 [INFO ] org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-02-18 23:42:16,707 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-02-18 23:42:16,719 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-02-18 23:42:37,880 [INFO ] org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.soria.ApiEmpleados.ApiEmpleadosApplicationTests]: ApiEmpleadosApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-02-18 23:42:38,119 [INFO ] org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.soria.ApiEmpleados.ApiEmpleadosApplication for test class com.soria.ApiEmpleados.ApiEmpleadosApplicationTests
+2025-02-18 23:42:38,369 [INFO ] org.springframework.boot.devtools.restart.RestartApplicationListener - Restart disabled due to context in which it is running
+2025-02-18 23:42:38,765 [INFO ] com.soria.ApiEmpleados.ApiEmpleadosApplicationTests - Starting ApiEmpleadosApplicationTests using Java 21.0.6 with PID 28724 (started by elias in D:\propio\coppel\ApiPolizas\apiEmpleado)
+2025-02-18 23:42:38,767 [INFO ] com.soria.ApiEmpleados.ApiEmpleadosApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2025-02-18 23:42:39,985 [INFO ] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-02-18 23:42:40,035 [INFO ] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 36 ms. Found 0 JDBC repository interfaces.
+2025-02-18 23:42:41,584 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-02-18 23:42:42,064 [INFO ] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: f3acd951-b225-4e7a-87bc-b9ef6b0a4c11
+2025-02-18 23:42:42,067 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-02-18 23:42:42,134 [WARN ] org.springframework.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-02-18 23:42:42,134 [WARN ] org.springframework.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.Instant as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-02-18 23:42:42,356 [INFO ] com.soria.ApiEmpleados.ApiEmpleadosApplicationTests - Started ApiEmpleadosApplicationTests in 4.007 seconds (process running for 6.205)
+2025-02-18 23:42:43,746 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-02-18 23:42:43,759 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-02-18 23:51:50,287 [INFO ] com.soria.ApiEmpleados.ApiEmpleadosApplication - Starting ApiEmpleadosApplication v0.0.1-SNAPSHOT using Java 21.0.6 with PID 36996 (D:\propio\coppel\ApiPolizas\jars\apiEmpleados\ApiEmpleados-0.0.1-SNAPSHOT.jar started by elias in C:\Users\elias)
+2025-02-18 23:51:50,291 [INFO ] com.soria.ApiEmpleados.ApiEmpleadosApplication - No active profile set, falling back to 1 default profile: "default"
+2025-02-18 23:51:51,819 [INFO ] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-02-18 23:51:51,872 [INFO ] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 32 ms. Found 0 JDBC repository interfaces.
+2025-02-18 23:51:55,279 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 9001 (http)
+2025-02-18 23:51:55,309 [INFO ] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9001"]
+2025-02-18 23:51:55,315 [INFO ] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-02-18 23:51:55,315 [INFO ] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-02-18 23:51:55,427 [INFO ] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-02-18 23:51:55,429 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5017 ms
+2025-02-18 23:51:56,967 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-02-18 23:51:58,035 [INFO ] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: 97da93bc-14ff-476a-b747-1d6fe15cfb7b
+2025-02-18 23:51:58,041 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-02-18 23:51:58,256 [WARN ] org.springframework.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-02-18 23:51:58,256 [WARN ] org.springframework.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.Instant as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-02-18 23:51:58,790 [INFO ] org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9001"]
+2025-02-18 23:51:58,843 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 9001 (http) with context path '/'
+2025-02-18 23:51:58,893 [INFO ] com.soria.ApiEmpleados.ApiEmpleadosApplication - Started ApiEmpleadosApplication in 9.504 seconds (process running for 11.039)
+2025-02-18 23:53:03,883 [INFO ] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-02-18 23:53:03,884 [INFO ] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-02-18 23:53:03,891 [INFO ] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 6 ms
+2025-02-18 23:53:04,182 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Inicia ObtenerActivos
+2025-02-18 23:53:04,213 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Inicia ObtenerPorId
+2025-02-18 23:53:04,307 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Termina ObtenerActivos
+2025-02-18 23:53:04,307 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Termina ObtenerActivos
+2025-02-18 23:53:10,510 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Inicia ObtenerActivos
+2025-02-18 23:53:10,520 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Inicia ObtenerPorId
+2025-02-18 23:53:10,522 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Termina ObtenerActivos
+2025-02-18 23:53:10,524 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Termina ObtenerActivos
+2025-02-18 23:53:22,064 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Inicia ObtenerActivos
+2025-02-18 23:53:22,083 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Termina ObtenerActivos
+2025-02-19 00:01:15,316 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Inicia ObtenerActivos
+2025-02-19 00:01:15,317 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Inicia ObtenerPorId
+2025-02-19 00:01:15,340 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Termina ObtenerActivos
+2025-02-19 00:01:15,341 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Termina ObtenerActivos
+2025-02-19 00:01:23,926 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Inicia ObtenerActivos
+2025-02-19 00:01:23,942 [INFO ] com.soria.ApiEmpleados.Controller.EmpleadoController - Termina ObtenerActivos
+2025-02-19 00:09:39,206 [INFO ] org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-02-19 00:09:39,211 [INFO ] org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-02-19 00:09:39,214 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-02-19 00:09:39,219 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
