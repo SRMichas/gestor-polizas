@@ -88,30 +88,49 @@ export class RegistroComponent implements OnInit {
     .then(()=>{
       const value = this.Form.value;
 
-      const obj:Poliza = {
+      const inv:Inventario = {
         sku: value?.sku ?? "",
         cantidad: value?.cantidad ?? 0,
-        idEmpleado: value?.empleado ?? 0
       }
 
-      const promesa = this.editar? this.fetchSrv.request("PUT","poliza",obj)
-        : this.fetchSrv.request("POST","poliza",obj)
-
-      promesa
+      this.fetchSrv.request("PUT","inventario/ajusteinventario",inv)
       .then(r =>{
-        if( r.meta.status == "OK" ){
-          this.messageSrv.success(this.editar? "Poliza actualizado con exito": "Poliza registrado con exito");
-          setTimeout(() => {
-            this.goBack();
-          }, 1000);
-        }else{
-          this.messageSrv.error(r.data.idmensaje)
+        if( r.meta.status == "FAILURE"){
+          this.loadginSrv.dismiss();
+          this.messageSrv.error(r.data.idmensaje);
+          return;
         }
-      })
-      .catch(e =>{
+
+        const obj:Poliza = {
+          sku: value?.sku ?? "",
+          cantidad: value?.cantidad ?? 0,
+          idEmpleado: value?.empleado ?? 0
+        }
+
+        this.fetchSrv.request("POST","poliza",obj)
+        .then(r =>{
+          if( r.meta.status == "OK" ){
+            this.messageSrv.success(this.editar? "Poliza actualizado con exito": "Poliza registrado con exito");
+            setTimeout(() => {
+              this.goBack();
+            }, 1000);
+          }else{
+            this.messageSrv.error(r.data.idmensaje)
+          }
+        })
+        .catch(e =>{
+          console.error(e);
+          this.messageSrv.error("Error al ajustar al generar la poliza");
+        })
+        .finally(() => this.loadginSrv.dismiss() )
 
       })
-      .finally(() => this.loadginSrv.dismiss() )
+      .catch( e =>{
+        this.loadginSrv.dismiss();
+        console.error(e);
+        this.messageSrv.error("Error al ajustar el inventario");
+      });
+
     })
   }
 

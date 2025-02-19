@@ -1,17 +1,17 @@
 USE polizas
-GO
+GO 
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE OR ALTER     PROCEDURE [dbo].[eliminarPoliza](
+CREATE OR ALTER     PROCEDURE [dbo].[restaurarInventario](
 	@idPoliza INT
+    ,@sku VARCHAR(5)
 )
 AS 
 	DECLARE
          @affectedRows INT
         ,@empleado_id INT
-        ,@sku VARCHAR(5)
         ,@cantidad INT
         ,@success BIT = 0
         ,@message VARCHAR(1024)
@@ -19,17 +19,26 @@ AS
 
     BEGIN TRANSACTION 
 	BEGIN TRY
-        --INHABILITANDO POLIZA ACTUAL
-        UPDATE MovPolizas
-        SET
-            Activo = 0
-        WHERE
+        SELECT TOP 1
+            @cantidad = Cantidad
+        FROM
+            MovPolizas
+        WHERE   
+            Activo = 1
+        AND
             idPoliza = @idPoliza
+
+        --RESTAURANDO INVENTARIO
+        UPDATE MovInventario
+        SET
+            Cantidad = Cantidad + @cantidad
+        WHERE
+            SKU = @sku
 
 		COMMIT
 
 		SET @success = 1
-		SET @message = 'POLIZA ELIMINADA CORRECTAMENTE'
+		SET @message = 'INVENTARIO RESTAURADO CON EXITO'
 	END TRY
 	BEGIN CATCH
 		ROLLBACK

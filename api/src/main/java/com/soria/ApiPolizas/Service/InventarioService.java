@@ -41,5 +41,53 @@ public class InventarioService implements IInventarioService {
         return inventarios;
     }
 
+    @Override
+    public Inventario ajusteInventario(Inventario inventario) throws Exception {
+        List<Inventario> inventarios = List.of();
+        Inventario inv = null;
+        try
+        {
+
+            inventarios = inventarioRepository.ajusteInventario(inventario);
+            if(!inventarios.isEmpty())
+            {
+                inv = inventarios.getFirst();
+
+                boolean success = (inv != null) ? inv.Estatus : true;
+                if( !success )
+                    throw new Exception(inv.Mensaje);
+            }
+        }
+        catch (Exception ex){
+            throw ex;
+        }
+
+        return inv;
+    }
+
+    @Override
+    public Inventario restaurarInventario(Inventario inventario) throws Exception {
+        List<Inventario> inventarios = List.of();
+        Inventario inv = null;
+        try
+        {
+
+            inventarios = inventarioRepository.restaurarInventario(inventario);
+            if(!inventarios.isEmpty())
+            {
+                inv = inventarios.getFirst();
+
+                boolean success = (inv != null) ? inv.Estatus : true;
+                if( !success )
+                    throw new Exception(inv.Mensaje);
+            }
+        }
+        catch (Exception ex){
+            throw ex;
+        }
+
+        return inv;
+    }
+
     
 }

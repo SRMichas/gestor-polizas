@@ -50,4 +50,23 @@ export class TextfilterDirective {
       }
     }, 2);
   }
+
+  @HostListener('change', ['$event']) onChange(event) {
+    setTimeout(() => {
+      switch(this.appTextfilter){
+        case "num":
+          this.inpFilt.soloNumeros(event,this.el);
+          break;
+        case "alfa":
+          this.inpFilt.alfaNumerico(event,true,-1,this.espacio,this.el);
+          break;
+        case "rfc":
+          this.inpFilt.rfc(event,true,this.el);
+          break;
+        default: break;
+      }
+    }, 2);
+  }
+
+
 }

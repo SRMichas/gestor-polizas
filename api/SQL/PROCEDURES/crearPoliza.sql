@@ -4,7 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE OR ALTER   PROCEDURE [dbo].[crearPoliza](
+CREATE OR ALTER     PROCEDURE [dbo].[crearPoliza](
     @empleado_id INT
     ,@sku VARCHAR(5)
     ,@cantidad INT
@@ -19,52 +19,34 @@ AS
     BEGIN TRANSACTION
 	BEGIN TRY
 
-        DECLARE @cantidad_en_inventario INT
+        INSERT INTO MovPolizas
+        (
+            idEmpleado
+            ,SKU
+            ,Cantidad
+            ,Activo
+            ,FechaRegistro
+        )
+        VALUES
+        (
+            @empleado_id
+            ,@sku
+            ,@cantidad
+            ,1
+            ,getdate()
+        )
 
-        SET @cantidad_en_inventario = ISNULL((SELECT TOP 1 Cantidad FROM MovInventario(NOLOCK)
-        WHERE SKU = @sku AND Activo = 1), 0)
-
-        IF @cantidad_en_inventario >= @cantidad
-        BEGIN
-            INSERT INTO MovPolizas
-            (
-                idEmpleado
-                ,SKU
-                ,Cantidad
-                ,Activo
-                ,FechaRegistro
-            )
-            VALUES
-            (
-                @empleado_id
-                ,@sku
-                ,@cantidad
-                ,1
-                ,getdate()
-            )
-
-            SET @affectedRows = @@ROWCOUNT
-                    
-
-            IF @affectedRows > 0
-            BEGIN
-                UPDATE polizas..MovInventario
-                SET
-                    Cantidad = @cantidad_en_inventario - @cantidad
-                WHERE
-                    SKU = @sku
-                
-                SET @success = 1
-                SET @message = 'Poliza Registrada correctamente'
-            END
-            ELSE
-            BEGIN
-                SET @message = 'ERR|NO se registro la Poliza'
-            END
+        SET @affectedRows = @@ROWCOUNT
+        
+        IF @affectedRows > 0
+        BEGIN    
+            SET @id = IDENT_CURRENT('MovPolizas')
+            SET @success = 1
+            SET @message = 'Poliza Registrada correctamente'
         END
         ELSE
         BEGIN
-            SET @message = 'ERR|La cantidad en invetario es menor a la solicitada'
+            SET @message = 'ERR|NO se registro la Poliza'
         END
                 
         COMMIT

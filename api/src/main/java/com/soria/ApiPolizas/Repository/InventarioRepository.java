@@ -23,4 +23,20 @@ public class InventarioRepository implements IInventarioRepository {
                 new int[]{},
                 BeanPropertyRowMapper.newInstance(Inventario.class));
     }
+
+    @Override
+    public List<Inventario> ajusteInventario(Inventario inventario) {
+        return jdbcTemplate.query("{ CALL ajusteInventario(?, ?) }"
+                , new Object[]{inventario.getSKU(), inventario.getCantidad()},
+                new int[]{Types.VARCHAR, Types.INTEGER},
+                BeanPropertyRowMapper.newInstance(Inventario.class));
+    }
+
+    @Override
+    public List<Inventario> restaurarInventario(Inventario inventario) {
+        return jdbcTemplate.query("{ CALL restaurarInventario(?, ?) }"
+                , new Object[]{inventario.getIdPoliza(), inventario.getSKU()},
+                new int[]{Types.INTEGER, Types.VARCHAR},
+                BeanPropertyRowMapper.newInstance(Inventario.class));
+    }
 }

@@ -160,25 +160,35 @@ export class ListadoComponent implements OnInit {
     this.router.navigateByUrl('/poliza/registro',{state: valor});
   }
 
-  eliminar(valor) {
-    console.log(valor);
+  eliminar(valor:Poliza) {
     this.utilSrv.presentAlert("Eliminar Poliza","¿Desea eliminar este registro?")
     .then( r =>{
       if( r == "confirm"){
         this.loadginSrv.present()
         .then(()=>{
-          this.fetchSrv.request("DELETE","poliza",valor)
+          this.fetchSrv.request("PUT","inventario/restaurarinventario",valor)
           .then(r =>{
-            if(r.meta.status == "OK"){
-              this.messageSrv.success("Poliza eliminada exitosamente");
-              this.fetchItems();
-            }else{
-              this.messageSrv.error(r.data.IDMensaje);
+            if( r.meta.status == "FAILIRE"){
+              this.loadginSrv.dismiss();
+              this.messageSrv.error(r.data.idmensaje);
+              return;
             }
+
+            this.fetchSrv.request("DELETE","poliza",valor)
+            .then(r =>{
+              if(r.meta.status == "OK"){
+                this.messageSrv.success("Poliza eliminada exitosamente");
+                this.fetchItems();
+              }else{
+                this.messageSrv.error(r.data.IDMensaje);
+              }
+            })
           })
-          // .catch(e =>{
-          //   this.messageSrv.error()
-          // })
+          .catch(e =>{
+            this.loadginSrv.dismiss();
+            console.error(e);
+            this.messageSrv.error("Error al restaurar el inventario");
+          })
 
         })
       }else{
@@ -241,7 +251,7 @@ export class ListadoComponent implements OnInit {
     this.modal.dismiss(null, 'cancel');
   }
 
-  actualizarCliente():void{
+  actualizarEmpleado():void{
     this.loadginSrv.present()
     .then(()=>{
       const value = this.Form.value;
@@ -251,7 +261,7 @@ export class ListadoComponent implements OnInit {
         idEmpleado: value.idEmpleado,
       }
 
-      this.fetchSrv.request("PUT","poliza/cambiarEmpleado",obj)
+      this.fetchSrv.request("PUT","poliza/cambiarempleado",obj)
       .then(r =>{
         if( r.meta.status == "OK" ){
           this.messageSrv.success("Empleado actualizado con exito");

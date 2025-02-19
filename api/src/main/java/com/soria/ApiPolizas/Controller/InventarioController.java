@@ -40,4 +40,44 @@ public class InventarioController extends ControllerBase{
 
         return  new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PutMapping("/ajusteinventario")
+    public ResponseEntity<ResponseAPI> ajusteInventario(@RequestBody Inventario inventario){
+        ResponseAPI result = null;
+        try
+        {
+            logger.info("Inicia ajusteInventario");
+            result = BuildResponse(inventarioServices.ajusteInventario(inventario));
+        }
+        catch (Exception ex){
+            result = BuildException(ex,"Ha ocurrido un error al ajustar el inventario");
+            LogException(logger,"ERROR en ajusteInventario", ex);
+        }
+        finally
+        {
+            logger.info("Termina ajusteInventario");
+        }
+
+        return  new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PutMapping("/restaurarinventario")
+    public ResponseEntity<ResponseAPI> restaurarInventario(@RequestBody Inventario inventario){
+        ResponseAPI result = null;
+        try
+        {
+            logger.info("Inicia restaurarInventario");
+            result = BuildResponse(inventarioServices.restaurarInventario(inventario));
+        }
+        catch (Exception ex){
+            result = BuildException("Ha ocurrido un error al restaurar el inventario");
+            LogException(logger,"ERROR en restaurarInventario", ex);
+        }
+        finally
+        {
+            logger.info("Termina restaurarInventario");
+        }
+
+        return  new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
