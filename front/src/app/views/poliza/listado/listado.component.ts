@@ -76,7 +76,7 @@ export class ListadoComponent implements OnInit {
       paginado: this.paginado
     }
 
-    this.fetchSrv.request("POST","poliza/paginado",flt)
+    this.fetchSrv.request2(this.fetchSrv.endpoint.apiPoliza,"POST","poliza/paginado",flt)
     .then(r =>{
       if( r.meta.status == "OK" ){
         const emp:Poliza = r.data[0];
@@ -166,7 +166,7 @@ export class ListadoComponent implements OnInit {
       if( r == "confirm"){
         this.loadginSrv.present()
         .then(()=>{
-          this.fetchSrv.request("PUT","inventario/restaurarinventario",valor)
+          this.fetchSrv.request2(this.fetchSrv.endpoint.apiInventario,"PUT","inventario/restaurarinventario",valor)
           .then(r =>{
             if( r.meta.status == "FAILIRE"){
               this.loadginSrv.dismiss();
@@ -174,7 +174,7 @@ export class ListadoComponent implements OnInit {
               return;
             }
 
-            this.fetchSrv.request("DELETE","poliza",valor)
+            this.fetchSrv.request2(this.fetchSrv.endpoint.apiPoliza,"DELETE","poliza",valor)
             .then(r =>{
               if(r.meta.status == "OK"){
                 this.messageSrv.success("Poliza eliminada exitosamente");
@@ -215,8 +215,8 @@ export class ListadoComponent implements OnInit {
     this.loadginSrv.present()
     .then(()=>{
         Promise.all([
-          this.fetchSrv.request("GET",`empleado`,null)
-          ,this.fetchSrv.request("GET",`empleado/${poliza.idEmpleado}`,null)
+          this.fetchSrv.request2(this.fetchSrv.endpoint.apiEmpleado,"GET",`empleado`,null)
+          ,this.fetchSrv.request2(this.fetchSrv.endpoint.apiEmpleado,"GET",`empleado/${poliza.idEmpleado}`,null)
         ])
         .then((r:ApiResponse[]) =>{
           if( r[0].meta.status == "OK"){
@@ -261,7 +261,7 @@ export class ListadoComponent implements OnInit {
         idEmpleado: value.idEmpleado,
       }
 
-      this.fetchSrv.request("PUT","poliza/cambiarempleado",obj)
+      this.fetchSrv.request2(this.fetchSrv.endpoint.apiPoliza,"PUT","poliza/cambiarempleado",obj)
       .then(r =>{
         if( r.meta.status == "OK" ){
           this.messageSrv.success("Empleado actualizado con exito");

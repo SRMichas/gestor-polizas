@@ -38,4 +38,39 @@ export class FetchService {
       }
     })
   }
+
+  public request2(api:string, method:string, controller:string, params?:any): Promise<ApiResponse>{
+    return new Promise((resolve, reject) => {
+      try{
+        fetch(`${api}/${controller}`, {
+          method: method,
+          headers: {
+          'Content-Type': 'application/json',
+          }
+          ,body: params? JSON.stringify(params) : null
+        }).then(async (response) => {
+          if (response.status === 200) {
+            response.json().then((data: ApiResponse) => {
+              if (Object.entries(data).length === 0) {
+                resolve(null);
+              } else {
+                resolve(data);
+              }
+            });
+          } else {
+            reject('No se puedo completar la peticion');
+          }
+        }).catch(e => reject(e));
+      }catch(e){
+        reject(e);
+      }
+    })
+  }
+
+  public readonly endpoint = {
+    apiPuesto: environment.apiPuesto,
+    apiEmpleado: environment.apiEmpleado,
+    apiInventario: environment.apiInventario,
+    apiPoliza: environment.apiPoliza,
+  }
 }

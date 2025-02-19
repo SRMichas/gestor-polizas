@@ -93,7 +93,7 @@ export class RegistroComponent implements OnInit {
         cantidad: value?.cantidad ?? 0,
       }
 
-      this.fetchSrv.request("PUT","inventario/ajusteinventario",inv)
+      this.fetchSrv.request2(this.fetchSrv.endpoint.apiInventario,"PUT","inventario/ajusteinventario",inv)
       .then(r =>{
         if( r.meta.status == "FAILURE"){
           this.loadginSrv.dismiss();
@@ -107,7 +107,7 @@ export class RegistroComponent implements OnInit {
           idEmpleado: value?.empleado ?? 0
         }
 
-        this.fetchSrv.request("POST","poliza",obj)
+        this.fetchSrv.request2(this.fetchSrv.endpoint.apiPoliza,"POST","poliza",obj)
         .then(r =>{
           if( r.meta.status == "OK" ){
             this.messageSrv.success(this.editar? "Poliza actualizado con exito": "Poliza registrado con exito");
@@ -136,7 +136,7 @@ export class RegistroComponent implements OnInit {
 
   //fetch
   private getEmpleados(){
-    this.fetchSrv.request("GET", "empleado",null)
+    this.fetchSrv.request2(this.fetchSrv.endpoint.apiEmpleado,"GET", "empleado",null)
     .then( r =>{
       if( r.meta.status == "OK"){
         this.empleados = r.data;
@@ -150,7 +150,7 @@ export class RegistroComponent implements OnInit {
   }
 
   private getInvetarios(){
-    this.fetchSrv.request("GET", "inventario",null)
+    this.fetchSrv.request2(this.fetchSrv.endpoint.apiInventario,"GET", "inventario",null)
     .then( r =>{
       if( r.meta.status == "OK"){
         this.inventarios = r.data;
@@ -165,7 +165,7 @@ export class RegistroComponent implements OnInit {
 
 
   private getDetail(){
-    this.fetchSrv.request("GET",`poliza/${this.polizaID}`,null)
+    this.fetchSrv.request2(this.fetchSrv.endpoint.apiPoliza,"GET",`poliza/${this.polizaID}`,null)
     .then(r =>{
       if( r.meta.status == "OK"){
         this.poliza = r.data[0];
