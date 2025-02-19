@@ -20,13 +20,13 @@ public class EmpleadoController extends ControllerBase{
     @Autowired
     private IEmpleadoService empleadoServices;
 
-    @GetMapping("/obtenerActivos")
-    public ResponseEntity<ResponseAPI> ObtenerActivos(){
+    @GetMapping("")
+    public ResponseEntity<ResponseAPI> obtenerActivos(){
         ResponseAPI result = null;
         try
         {
         	logger.info("Inicia ObtenerActivos");
-            result = BuildResponse(empleadoServices.ObtenerActivos());
+            result = BuildResponse(empleadoServices.obtenerActivos());
         }
         catch (Exception ex){
             result = BuildException("Ha ocurrido un error al obtener los empleados activos");
@@ -40,13 +40,13 @@ public class EmpleadoController extends ControllerBase{
         return  new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/ObtenerPorId/{id}")
-    public ResponseEntity<ResponseAPI> ObtenerPorId(@PathVariable int id){
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseAPI> obtenerPorId(@PathVariable int id){
         ResponseAPI result = null;
         try
         {
         	logger.info("Inicia ObtenerPorId");
-            result = BuildResponse(empleadoServices.ObtenerPorId(id));
+            result = BuildResponse(empleadoServices.obtenerPorId(id));
         }
         catch (Exception ex){
             result = BuildException("Ha ocurrido un error al obtener los empleados por ID");
@@ -60,13 +60,13 @@ public class EmpleadoController extends ControllerBase{
         return  new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PutMapping("/Actualizar")
-    public ResponseEntity<ResponseAPI> Actualizar(@RequestBody Empleado empleado){
+    @PutMapping("")
+    public ResponseEntity<ResponseAPI> actualizar(@RequestBody Empleado empleado){
         ResponseAPI result = null;
         try
         {
         	logger.info("Inicia Actualizar");
-            result = BuildResponse(empleadoServices.Actualizar(empleado));
+            result = BuildResponse(empleadoServices.actualizar(empleado));
         }
         catch (Exception ex){
             result = BuildException("Ha ocurrido un error al actualiar el empleado");

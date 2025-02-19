@@ -21,26 +21,25 @@ public class EmpleadoRepository implements IEmpleadoRepository {
 
     @Override
     public List<Empleado> obtenerActivos() {
-        return jdbcTemplate.query(Procedure, new Object[]{2,"{}"},
-                new int[]{Types.INTEGER, Types.VARCHAR},
+        return jdbcTemplate.query("{ CALL obtenerEmpleadosActivos }", new Object[]{},
+                new int[]{},
                 BeanPropertyRowMapper.newInstance(Empleado.class));
     }
 
     @Override
-    public List<Empleado> ObtenerPorId(Empleado empleado) throws JsonProcessingException {
-        String json = objectMapper.writeValueAsString(empleado);
+    public List<Empleado> ObtenerPorId(int empleadoID) throws JsonProcessingException {
 
-        return jdbcTemplate.query(Procedure, new Object[]{2,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
+        return jdbcTemplate.query("{ CALL obtenerEmpleado(?) }", new Object[]{empleadoID},
+                new int[]{Types.INTEGER},
                 BeanPropertyRowMapper.newInstance(Empleado.class));
     }
 
     @Override
     public Empleado Actualizar(Empleado empleado) throws Exception{
-        String json = objectMapper.writeValueAsString(empleado);
 
-        Empleado result = jdbcTemplate.queryForObject(Procedure, new Object[]{3,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
+        Empleado result = jdbcTemplate.queryForObject("{ CALL actualizarEmpleado(?, ?, ?) }"
+                , new Object[]{empleado.getIdEmpleado(),empleado.getNombre(), empleado.getApellido()},
+                new int[]{Types.INTEGER, Types.VARCHAR, Types.VARCHAR},
                 BeanPropertyRowMapper.newInstance(Empleado.class));
 
         return result;

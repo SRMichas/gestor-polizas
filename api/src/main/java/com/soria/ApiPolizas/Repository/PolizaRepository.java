@@ -20,31 +20,40 @@ public class PolizaRepository implements IPolizaRepository {
     
 
     @Override
-    public List<Poliza> ObtenerPaginado(Poliza poliza) throws Exception {
-        String json = objectMapper.writeValueAsString(poliza);
-
-        return jdbcTemplate.query(Procedure, new Object[]{5,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
+    public List<Poliza> obtenerPaginado(Poliza poliza) throws Exception {
+        return jdbcTemplate.query("{ CALL obtenerPolizasPaginadas(?, ?, ?) }",
+                new Object[]{poliza.Pagina,poliza.Paginado, poliza.Busqueda},
+                new int[]{Types.INTEGER, Types.INTEGER, Types.VARCHAR},
                 BeanPropertyRowMapper.newInstance(Poliza.class));
     }
 
     @Override
-    public Poliza Registrar(Poliza poliza) throws Exception{
-        String json = objectMapper.writeValueAsString(poliza);
+    public Poliza registrar(Poliza poliza) throws Exception{
 
-        Poliza result = jdbcTemplate.queryForObject(Procedure, new Object[]{1,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
+        Poliza result = jdbcTemplate.queryForObject("{ CALL crearPoliza(?, ?, ?) }"
+                , new Object[]{poliza.getIdEmpleado(), poliza.getSKU(), poliza.getCantidad()},
+                new int[]{Types.INTEGER, Types.VARCHAR, Types.INTEGER},
+                BeanPropertyRowMapper.newInstance(Poliza.class));
+
+        return result;
+    }
+
+    public Poliza cambiarEmpleado(Poliza poliza) throws Exception{
+
+        Poliza result = jdbcTemplate.queryForObject("{ CALL actualizarEmpleadoPoliza(?, ?) }"
+                , new Object[]{poliza.getIdPoliza() ,poliza.getIdEmpleado()},
+                new int[]{Types.INTEGER, Types.INTEGER},
                 BeanPropertyRowMapper.newInstance(Poliza.class));
 
         return result;
     }
 
     @Override
-    public Poliza Eliminar(Poliza poliza) throws Exception{
-        String json = objectMapper.writeValueAsString(poliza);
+    public Poliza eliminar(Poliza poliza) throws Exception{
 
-        Poliza result = jdbcTemplate.queryForObject(Procedure, new Object[]{4,json},
-                new int[]{Types.INTEGER, Types.VARCHAR},
+        Poliza result = jdbcTemplate.queryForObject("{ CALL eliminarPoliza(?) }"
+                , new Object[]{poliza.getIdPoliza()},
+                new int[]{Types.INTEGER},
                 BeanPropertyRowMapper.newInstance(Poliza.class));
 
         return result;

@@ -19,10 +19,12 @@ import {MatSelectModule} from '@angular/material/select';
 
 import {ElLoadingComponent} from '../views/components/el-loading/el-loading.component';
 //directives
+import { TextfilterDirective } from '../directives/textfilter.directive'
 
 @NgModule({
   declarations: [
     ElLoadingComponent
+    ,TextfilterDirective
   ],
   exports: [
     CommonModule
@@ -37,6 +39,7 @@ import {ElLoadingComponent} from '../views/components/el-loading/el-loading.comp
     ,MatDividerModule
     ,MatButtonModule
     ,MatSelectModule
+    ,TextfilterDirective
   ],
   imports: [
     CommonModule

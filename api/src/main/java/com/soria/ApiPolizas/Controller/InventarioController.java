@@ -21,13 +21,13 @@ public class InventarioController extends ControllerBase{
     @Autowired
     private IInventarioService inventarioServices;
 
-    @GetMapping("/obtenerActivos")
-    public ResponseEntity<ResponseAPI> ObtenerActivos(){
+    @GetMapping("")
+    public ResponseEntity<ResponseAPI> obtenerActivos(){
         ResponseAPI result = null;
         try
         {
             logger.info("Inicia ObtenerActivos");
-            result = BuildResponse(inventarioServices.ObtenerActivos());
+            result = BuildResponse(inventarioServices.obtenerActivos());
         }
         catch (Exception ex){
             result = BuildException("Ha ocurrido un error al obtener los empleados activos");

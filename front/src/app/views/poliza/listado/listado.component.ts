@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonModal } from '@ionic/angular';
+import { ApiResponse } from 'src/app/models/ApiResponse.model';
 import { Empleado } from 'src/app/models/Empleado.model';
 import { Poliza } from 'src/app/models/Poliza.model';
 import { FetchService } from 'src/app/services/fetch.service';
@@ -26,12 +27,17 @@ export class ListadoComponent implements OnInit {
   // OBJETOS
   Form: FormGroup;
   empleado: Empleado;
+  polizaS: Poliza;
   //LISTAS
   listGlobal: Poliza[] = [];
   listFlt: Poliza[] = [];
-  columns: string[] = ['Empleado', 'SKU', 'Cantidad', 'acciones'];
+  columns: string[] = ['idPoliza','Empleado', 'SKU', 'Cantidad', 'acciones'];
+  empleados: Empleado[] = [];
   //
   validationMessages = {
+    idEmpleado: [
+      { type: 'required', message: 'El empleado es obligatorio' },
+    ],
     nombre: [
       { type: 'required', message: 'El nombre es obligatorio' },
       { type: 'minlength', message: 'Mínimo 3 caracteres' },
@@ -53,8 +59,9 @@ export class ListadoComponent implements OnInit {
     private utilSrv: UtilService
   ) {
     this.Form = this.formBuilder.group({
-      nombre: new FormControl("",Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(250)])),
-      apellido: new FormControl("",Validators.compose([Validators.required, Validators.minLength(3),Validators.maxLength(250)])),
+      idEmpleado: new FormControl("",Validators.compose([Validators.required])),
+      // apellido: new FormControl("",Validators.compose([Validators.required, Validators.minLength(3),Validators.maxLength(250)])),
+      // apellido: new FormControl("",Validators.compose([Validators.required, Validators.minLength(3),Validators.maxLength(250)])),
     });
   }
 
@@ -69,7 +76,7 @@ export class ListadoComponent implements OnInit {
       paginado: this.paginado
     }
 
-    this.fetchSrv.request("POST","poliza/ObtenerPaginado",flt)
+    this.fetchSrv.request("POST","poliza/paginado",flt)
     .then(r =>{
       if( r.meta.status == "OK" ){
         const emp:Poliza = r.data[0];
@@ -160,10 +167,10 @@ export class ListadoComponent implements OnInit {
       if( r == "confirm"){
         this.loadginSrv.present()
         .then(()=>{
-          this.fetchSrv.request("DELETE","poliza/Eliminar",valor)
+          this.fetchSrv.request("DELETE","poliza",valor)
           .then(r =>{
             if(r.meta.status == "OK"){
-              this.messageSrv.success("Poliza eliminado exitosamente");
+              this.messageSrv.success("Poliza eliminada exitosamente");
               this.fetchItems();
             }else{
               this.messageSrv.error(r.data.IDMensaje);
@@ -194,28 +201,39 @@ export class ListadoComponent implements OnInit {
   }
 
   abrirModal(poliza:Poliza):void{
-    this.modal.present()
-    .then(() =>{
-      this.loadginSrv.present()
-      .then(()=>{
-        this.fetchSrv.request("GET",`empleado/ObtenerPorId/${poliza.idEmpleado}`,null)
-        .then( r =>{
-          if( r.meta.status == "OK" ){
-            this.empleado = r.data[0];
-            this.Form.patchValue({
-              nombre: this.empleado.nombre,
-              apellido: this.empleado.apellido
-            })
-          }else{
-            this.messageSrv.error(r.data.idmensaje)
+    this.polizaS = poliza;
+    this.loadginSrv.present()
+    .then(()=>{
+        Promise.all([
+          this.fetchSrv.request("GET",`empleado`,null)
+          ,this.fetchSrv.request("GET",`empleado/${poliza.idEmpleado}`,null)
+        ])
+        .then((r:ApiResponse[]) =>{
+          if( r[0].meta.status == "OK"){
+            this.empleados = r[0].data;
           }
-        })
-        .catch(e =>{
-          this.messageSrv.error("Error al obtener el empleado")
+          else{
+
+          }
+
+          if( r[1].meta.status == "OK"){
+            this.empleado = r[1].data[0];
+            this.Form.patchValue({
+              idEmpleado: this.empleado.idEmpleado ?? 0
+              // nombre: this.empleado.nombre,
+              // apellido: this.empleado.apellido
+            })
+          }
+          else{
+
+          }
+
+          this.modal.present().then(() =>{});
         })
         .finally(()=> this.loadginSrv.dismiss());
-      })
+
     })
+
 
   }
 
@@ -228,13 +246,12 @@ export class ListadoComponent implements OnInit {
     .then(()=>{
       const value = this.Form.value;
 
-      const obj:Empleado = {
-        idEmpleado: this.empleado.idEmpleado,
-        nombre: value?.nombre ?? "",
-        apellido: value?.apellido ?? "",
+      const obj:Poliza = {
+        idPoliza: this.polizaS.idPoliza,
+        idEmpleado: value.idEmpleado,
       }
 
-      this.fetchSrv.request("PUT","empleado/Actualizar",obj)
+      this.fetchSrv.request("PUT","poliza/cambiarEmpleado",obj)
       .then(r =>{
         if( r.meta.status == "OK" ){
           this.messageSrv.success("Empleado actualizado con exito");
@@ -257,5 +274,9 @@ export class ListadoComponent implements OnInit {
     if (event.detail.role === 'confirm') {
       this.fetchItems();
     }
+  }
+
+  manejaModalEmpleado(){
+
   }
 }

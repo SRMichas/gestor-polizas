@@ -18,4 +18,16 @@ public class Poliza extends GeneralParams{
     public int getIdPoliza() {
         return IdPoliza;
     }
+
+    public int getIdEmpleado() {
+        return IdEmpleado;
+    }
+
+    public String getSKU() {
+        return SKU;
+    }
+
+    public int getCantidad() {
+        return Cantidad;
+    }
 }

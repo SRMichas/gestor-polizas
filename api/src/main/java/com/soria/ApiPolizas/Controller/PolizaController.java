@@ -21,14 +21,14 @@ public class PolizaController extends ControllerBase{
     @Autowired
     private IPolizaService polizaServices;
 
-    @PostMapping("/ObtenerPaginado")
-    public ResponseEntity<ResponseAPI> ObtenerPaginado(@RequestBody Poliza poliza){
+    @PostMapping("/paginado")
+    public ResponseEntity<ResponseAPI> obtenerPaginado(@RequestBody Poliza poliza){
         ResponseAPI result = null;
         try
         {
-            logger.info("Inicia ObtenerPaginado");
+            logger.info("Inicia obtenerPaginado");
 
-            result = BuildResponse(polizaServices.ObtenerPaginado(poliza));
+            result = BuildResponse(polizaServices.obtenerPaginado(poliza));
         }
         catch (Exception ex){
             result = BuildException("Ha ocurrido un error al obtener las polizas paginados");
@@ -42,14 +42,14 @@ public class PolizaController extends ControllerBase{
         return  new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/Registrar")
-    public ResponseEntity<ResponseAPI> Registrar(@RequestBody Poliza poliza){
+    @PostMapping("")
+    public ResponseEntity<ResponseAPI> registrar(@RequestBody Poliza poliza){
         ResponseAPI result = null;
         try
         {
             logger.info("Inicia Registrar");
 
-            result = BuildResponse(polizaServices.Registrar(poliza));
+            result = BuildResponse(polizaServices.registrar(poliza));
         }
         catch (Exception ex){
             result = BuildException(ex,"Ha ocurrido un error al registrar el poliza");
@@ -63,14 +63,35 @@ public class PolizaController extends ControllerBase{
         return  new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @DeleteMapping("/Eliminar")
-    public ResponseEntity<ResponseAPI> Eliminar(@RequestBody Poliza poliza){
+    @PutMapping("/cambiarempleado")
+    public ResponseEntity<ResponseAPI> cambiarEmpleado(@RequestBody Poliza poliza){
+        ResponseAPI result = null;
+        try
+        {
+            logger.info("Inicia cambiarEmpleado");
+
+            result = BuildResponse(polizaServices.cambiarEmpleado(poliza));
+        }
+        catch (Exception ex){
+            result = BuildException(ex,"Ha ocurrido un error al cambiarEmpleado el poliza");
+            LogException(logger,"ERROR en cambiarEmpleado", ex);
+        }
+        finally
+        {
+            logger.info("Termina cambiarEmpleado");
+        }
+
+        return  new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<ResponseAPI> eliminar(@RequestBody Poliza poliza){
         ResponseAPI result = null;
         try
         {
             logger.info("Inicia Eliminar");
 
-            Poliza pol = polizaServices.Eliminar(poliza);
+            Poliza pol = polizaServices.eliminar(poliza);
             String msg = String.format("Se eliminó correctamente la poliza %d", pol.getIdPoliza());
             result = BuildResponse(new Mensaje(msg));
         }

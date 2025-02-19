@@ -19,8 +19,8 @@ public class InventarioRepository implements IInventarioRepository {
 
     @Override
     public List<Inventario> obtenerActivos() {
-        return jdbcTemplate.query(Procedure, new Object[]{2,"{}"},
-                new int[]{Types.INTEGER, Types.VARCHAR},
+        return jdbcTemplate.query("{ CALL obtenerInvetarios }", new Object[]{},
+                new int[]{},
                 BeanPropertyRowMapper.newInstance(Inventario.class));
     }
 }

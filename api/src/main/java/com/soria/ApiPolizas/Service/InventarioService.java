@@ -13,14 +13,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class InventarioService extends ServiceBase implements IInventarioService {
+public class InventarioService implements IInventarioService {
 
-    private static final Logger logger = LoggerFactory.getLogger(InventarioService.class);
     @Autowired
     private IInventarioRepository inventarioRepository;
 
     @Override
-    public List<Inventario> ObtenerActivos() throws Exception {
+    public List<Inventario> obtenerActivos() throws Exception {
         List<Inventario> inventarios = List.of();
         try
         {

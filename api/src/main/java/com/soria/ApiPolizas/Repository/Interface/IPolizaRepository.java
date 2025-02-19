@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface IPolizaRepository {
 
-    public List<Poliza> ObtenerPaginado(Poliza poliza) throws Exception;
-    public Poliza Registrar(Poliza poliza) throws Exception;
-    public Poliza Eliminar(Poliza poliza) throws Exception;
+    public List<Poliza> obtenerPaginado(Poliza poliza) throws Exception;
+    public Poliza registrar(Poliza poliza) throws Exception;
+    public Poliza cambiarEmpleado(Poliza poliza) throws Exception;
+    public Poliza eliminar(Poliza poliza) throws Exception;
 }

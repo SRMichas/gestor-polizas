@@ -7,6 +7,6 @@ import java.util.List;
 public interface IEmpleadoRepository {
 
     public List<Empleado> obtenerActivos();
-    public List<Empleado> ObtenerPorId(Empleado empleado) throws JsonProcessingException;
+    public List<Empleado> ObtenerPorId(int empleadoID) throws JsonProcessingException;
     public Empleado Actualizar(Empleado empleado) throws Exception;
 }

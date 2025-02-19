@@ -17,4 +17,12 @@ public class Empleado extends GeneralParams{
     public int getIdEmpleado() {
         return IdEmpleado;
     }
+
+    public String getNombre() {
+        return Nombre;
+    }
+
+    public String getApellido() {
+        return Apellido;
+    }
 }

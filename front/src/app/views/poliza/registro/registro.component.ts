@@ -29,7 +29,7 @@ export class RegistroComponent implements OnInit {
   //
   validationMessages = {
     cantidad: [
-      { type: 'required', message: 'El nombre es obligatorio' },
+      { type: 'required', message: 'La cantidad es obligatoria' },
       { type: 'min', message: 'Mínimo 0' },
     ],
     sku: [
@@ -94,8 +94,8 @@ export class RegistroComponent implements OnInit {
         idEmpleado: value?.empleado ?? 0
       }
 
-      const promesa = this.editar? this.fetchSrv.request("PUT","poliza/Actualizar",obj)
-        : this.fetchSrv.request("POST","poliza/Registrar",obj)
+      const promesa = this.editar? this.fetchSrv.request("PUT","poliza",obj)
+        : this.fetchSrv.request("POST","poliza",obj)
 
       promesa
       .then(r =>{
@@ -117,7 +117,7 @@ export class RegistroComponent implements OnInit {
 
   //fetch
   private getEmpleados(){
-    this.fetchSrv.request("GET", "empleado/obtenerActivos",null)
+    this.fetchSrv.request("GET", "empleado",null)
     .then( r =>{
       if( r.meta.status == "OK"){
         this.empleados = r.data;
@@ -131,7 +131,7 @@ export class RegistroComponent implements OnInit {
   }
 
   private getInvetarios(){
-    this.fetchSrv.request("GET", "inventario/obtenerActivos",null)
+    this.fetchSrv.request("GET", "inventario",null)
     .then( r =>{
       if( r.meta.status == "OK"){
         this.inventarios = r.data;
@@ -146,7 +146,7 @@ export class RegistroComponent implements OnInit {
 
 
   private getDetail(){
-    this.fetchSrv.request("GET",`poliza/ObtenerPorId/${this.polizaID}`,null)
+    this.fetchSrv.request("GET",`poliza/${this.polizaID}`,null)
     .then(r =>{
       if( r.meta.status == "OK"){
         this.poliza = r.data[0];

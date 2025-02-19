@@ -14,16 +14,15 @@ import java.util.List;
 @Service
 public class PolizaService extends ServiceBase implements IPolizaService {
 
-    private static final Logger logger = LoggerFactory.getLogger(PolizaService.class);
     @Autowired
     private IPolizaRepository polizaRepository;
 
     @Override
-    public List<Poliza> ObtenerPaginado(Poliza poliza) throws Exception {
+    public List<Poliza> obtenerPaginado(Poliza poliza) throws Exception {
         List<Poliza> polizas = List.of();
         try
         {
-            polizas = polizaRepository.ObtenerPaginado(poliza);
+            polizas = polizaRepository.obtenerPaginado(poliza);
             if(!polizas.isEmpty())
             {
                 Poliza pol = polizas.getFirst();
@@ -42,18 +41,17 @@ public class PolizaService extends ServiceBase implements IPolizaService {
     }
 
     @Override
-    public Poliza Registrar(Poliza poliza) throws Exception {
+    public Poliza registrar(Poliza poliza) throws Exception {
         Poliza pol = null;
         try
         {
-            pol = polizaRepository.Registrar(poliza);
+            pol = polizaRepository.registrar(poliza);
             if(!pol.Estatus)
             {
-                throw new Exception(poliza.Mensaje);
+                throw new Exception(pol.Mensaje);
             }
         }
         catch (Exception ex){
-            logger.error("ERROR en Registrar",ex);
             throw ex;
         }
         
@@ -61,16 +59,35 @@ public class PolizaService extends ServiceBase implements IPolizaService {
         return pol;
     }
 
-
     @Override
-    public Poliza Eliminar(Poliza poliza) throws Exception {
+    public Poliza cambiarEmpleado(Poliza poliza) throws Exception {
         Poliza pol = null;
         try
         {
-            pol = polizaRepository.Eliminar(poliza);
+            pol = polizaRepository.cambiarEmpleado(poliza);
             if(!pol.Estatus)
             {
-                throw new Exception(poliza.Mensaje);
+                throw new Exception(pol.Mensaje);
+            }
+        }
+        catch (Exception ex){
+            throw ex;
+        }
+
+
+        return pol;
+    }
+
+
+    @Override
+    public Poliza eliminar(Poliza poliza) throws Exception {
+        Poliza pol = null;
+        try
+        {
+            pol = polizaRepository.eliminar(poliza);
+            if(!pol.Estatus)
+            {
+                throw new Exception(pol.Mensaje);
             }
         }
         catch (Exception ex){
